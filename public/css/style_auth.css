@@ -1,0 +1,57 @@
+body{
+    background-color: #F3FFF9;
+    background-image: url(../img/Background1.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 32em 48em;
+
+}
+nav #navbarNavAltMarkup .navbar-nav a{
+    font-family: sans-serif;
+    color: #2DA857;
+    font-size: 18px;
+}
+
+.active{
+    color: #2DA857;
+}
+.disabled{
+    color: #9B9B9B;
+    opacity: 0.3;
+}
+.auth_menu{
+    text-align: center;
+}
+.auth_menu a{
+    color: #2DA857;
+}
+.auth_menu hr{
+    border: 1px solid;
+}
+button.btn.btn-primary.col-md-3.offset-md-9{
+    background-color: #2DA857;
+    box-shadow: 3px 5px 7px #8FD6F7;
+    border-radius: 32px;
+    font-weight: 500;
+}
+
+.icon_input span#inputGroup-sizing-lg.input-group-text, .icon_input input.form-control{
+    background-color: white;
+    border: 0px;
+    box-shadow: 3px 5px 7px rgba(45, 168, 87, 0.2);
+}
+
+.icon_input span#inputGroup-sizing-lg.input-group-text, .icon_input select.form-control{
+    background-color: white;
+    border: 0px;
+    box-shadow: 3px 5px 7px rgba(45, 168, 87, 0.2);
+}
+.forget_pass,.forget_pass:hover{
+    color: #2DA857;
+}
+
+@media screen and (max-width: 992px){
+    body{
+        background-image: none;
+    }
+}

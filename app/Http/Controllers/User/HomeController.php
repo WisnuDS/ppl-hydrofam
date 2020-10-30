@@ -10,6 +10,6 @@ class HomeController extends Controller
     public function index()
     {
         $role = auth()->user()->roles[0]->title;
-        return view('home',compact('role'));
+        return view('welcome',compact('role'));
     }
 }

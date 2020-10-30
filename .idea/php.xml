@@ -112,6 +112,12 @@
       <path value="$PROJECT_DIR$/vendor/opis/closure" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/ghiffariaq/mini-acl" />
+      <path value="$PROJECT_DIR$/../vendor/jeremykenedy/laravel-logger" />
+      <path value="$PROJECT_DIR$/../vendor/laravelcollective/html" />
+      <path value="$PROJECT_DIR$/../vendor/jaybizzle/crawler-detect" />
+      <path value="$PROJECT_DIR$/../vendor/jaybizzle/laravel-crawler-detect" />
+      <path value="$PROJECT_DIR$/../vendor/yoeunes/toastr" />
+      <path value="$PROJECT_DIR$/../vendor/austintoddj/canvas" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import AllPosts from "./views/AllPosts";
+import CommentComponent from "./views/CommentComponent";
 
 require('bootstrap');
 
 new Vue({
     el: '#blog',
     components:{
-        'post' : AllPosts
+        'comment': CommentComponent,
     }
 });

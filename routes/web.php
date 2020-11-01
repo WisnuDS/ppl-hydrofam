@@ -32,7 +32,7 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.
 });
 
 //route user
-Route::group(['middleware' => 'role:user', 'prefix' => 'user', 'as' => 'user.'], function() {
+Route::group(['middleware' => ['role:user','activity'], 'prefix' => 'user', 'as' => 'user.'], function() {
     Route::get('/home','App\Http\Controllers\User\HomeController@index');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
 });
@@ -53,6 +53,10 @@ Route::prefix('blog')->group(function (){
 
         Route::get('users/{id}', [\App\Http\Controllers\CanvasUiController::class, 'showUser']);
         Route::get('users/{id}/posts', [\App\Http\Controllers\CanvasUiController::class, 'getPostsForUser']);
+
+        Route::get('comment/{post_id}', [\App\Http\Controllers\User\BlogController::class, 'getComments']);
+        Route::get('auth', [\App\Http\Controllers\User\BlogController::class, 'getAuth']);
+        Route::post('create-comment', [\App\Http\Controllers\User\BlogController::class, 'createComment']);
     });
 
     Route::get('/', [\App\Http\Controllers\User\BlogController::class, 'index']);

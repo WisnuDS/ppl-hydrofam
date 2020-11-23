@@ -10,7 +10,12 @@
     <section class="ftco-section ftco-degree-bg">
         <div class="container">
             <div class="row">
-
+                @if(auth()->user()->isA('admin') || auth()->user()->isA('super'))
+                    <div class="col-lg-4 offset-8 ftco-animate">
+                        <a href="{{url('admin/create-blog')}}" class="btn btn-warning mb-3"><span><img src="{{asset('img/icons/edit-round.png')}}"
+                                                                                              alt="" class="admin_new_post_icon" width="20"></span> Edit this post</a>
+                    </div>
+                @endif
                 <!-- BLOG SECTION -->
                 <div class="col-lg-8 ftco-animate">
                     {!! $post->body !!}

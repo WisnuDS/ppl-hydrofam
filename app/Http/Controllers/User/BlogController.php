@@ -96,4 +96,9 @@ class BlogController extends Controller
             "comment" => $comment
         ]);
     }
+
+    public function createNewBlog(Request $request)
+    {
+
+    }
 }

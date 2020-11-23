@@ -27,9 +27,9 @@ class HomeController extends Controller
         if (auth()->user()->isA('super')){
             return redirect('/super/home');
         }elseif (auth()->user()->isA('admin')){
-            return redirect('/admin/home');
+            return redirect('/');
         }elseif (auth()->user()->isA('user')){
-            return redirect('/user/home');
+            return redirect('/');
         }else{
             return abort(403);
         }

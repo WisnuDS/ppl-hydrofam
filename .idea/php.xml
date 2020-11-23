@@ -123,6 +123,17 @@
       <path value="$PROJECT_DIR$/../vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/../vendor/krlove/code-generator" />
       <path value="$PROJECT_DIR$/../vendor/krlove/eloquent-model-generator" />
+      <path value="$PROJECT_DIR$/vendor/yoeunes/toastr" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/krlove/code-generator" />
+      <path value="$PROJECT_DIR$/vendor/krlove/eloquent-model-generator" />
+      <path value="$PROJECT_DIR$/vendor/jeremykenedy/laravel-logger" />
+      <path value="$PROJECT_DIR$/vendor/laravelcollective/html" />
+      <path value="$PROJECT_DIR$/vendor/jaybizzle/crawler-detect" />
+      <path value="$PROJECT_DIR$/vendor/jaybizzle/laravel-crawler-detect" />
+      <path value="$PROJECT_DIR$/vendor/austintoddj/canvas" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

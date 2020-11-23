@@ -35,7 +35,15 @@
                             <span>{{explode(" ",auth()->user()->name)[0]}}</span>
                         </div>
                         <div class="dropdown-menu" aria-labelledby="cbAccount">
-                            <a class="dropdown-item" href="{{route('user.profile.index')}}">My Profile</a>
+                            @if(auth()->user()->isA('user'))
+                                <a class="dropdown-item" href="{{route('user.profile.index')}}">My Profile</a>
+                            @elseif(auth()->user()->isA('admin'))
+                                <a class="dropdown-item" href="{{route('admin.profile.index')}}">My Profile</a>
+                                <a class="dropdown-item" href="#">Transaction Data</a>
+                            @elseif(auth()->user()->isA('super'))
+                                    <a class="dropdown-item" href="#">Transaction Data</a>
+                                    <a class="dropdown-item" href="{{route('super.user-management.index')}}">User Management</a>
+                            @endif
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">

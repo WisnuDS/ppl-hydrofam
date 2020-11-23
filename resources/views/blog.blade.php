@@ -4,11 +4,22 @@
     Blog
 @endsection
 
+@push('styles')
+    <script src="https://kit.fontawesome.com/3aa0ba3511.js" crossorigin="anonymous"></script>
+@endpush
 @section('content')
     @include('components.jumbotron',['title' => 'Blog'])
     <section class="ftco-section ftco-degree-bg">
         <div class="container">
             <div class="row">
+                @if(!auth()->guest())
+                    @if(auth()->user()->isA('admin') || auth()->user()->isA('super'))
+                        <div class="col-lg-2 offset-10 ftco-animate">
+                            <a href="{{url('admin/create-blog')}}" class="btn btn-outline-dark mb-3" style="width: 100%;"><span><img
+                                        src="{{asset('img/icons/edit-round.png')}}" alt="" class="admin_new_post_icon" width="20"></span> New Post</a>
+                        </div>
+                    @endif
+                @endif
                 <div class="col-lg-8 ftco-animate">
                     <div class="row">
                         @foreach($posts as $post)

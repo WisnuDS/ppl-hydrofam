@@ -24,11 +24,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //route SuperAdmin
 Route::group(['middleware' => 'role:super', 'prefix' => 'super', 'as' => 'super.'], function() {
     Route::get('/home','App\Http\Controllers\Super\HomeController@index');
+    Route::resource('user-management', 'App\Http\Controllers\Super\UserManagementController');
 });
 
 //route admin
 Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('/home','App\Http\Controllers\Admin\HomeController@index');
+//    Route::get('/home','App\Http\Controllers\Admin\HomeController@index');
+    Route::view('/create-blog','field_blog');
+    Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
 });
 
 //route user

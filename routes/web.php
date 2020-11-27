@@ -25,6 +25,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => 'role:super', 'prefix' => 'super', 'as' => 'super.'], function() {
     Route::get('/home','App\Http\Controllers\Super\HomeController@index');
     Route::resource('user-management', 'App\Http\Controllers\Super\UserManagementController');
+    Route::post('user-management/update-role/{id}', 'App\Http\Controllers\Super\UserManagementController@updateRole')->name('update.role');
+    Route::view('/create-blog','field_blog');
 });
 
 //route admin

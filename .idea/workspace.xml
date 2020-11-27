@@ -2,16 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50a2296c-44e3-4c81-8ff5-6e1dcdecd67d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/edit_user.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/layouts/navigation.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/layouts/navigation.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Super/UserManagementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Super/UserManagementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/User/BlogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/User/BlogController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/edit_profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/edit_profile.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/navbar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/post.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/post.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +48,13 @@
         <item name="DBhydrofam@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="DBhydrofam: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="DBhydrofam@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="DBhydrofam: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="canvas_posts: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -264,7 +269,7 @@
       <workItem from="1605628542162" duration="6856000" />
       <workItem from="1606056841784" duration="7816000" />
       <workItem from="1606116977729" duration="1855000" />
-      <workItem from="1606488596857" duration="4513000" />
+      <workItem from="1606488596857" duration="14020000" />
     </task>
     <servers />
   </component>
@@ -311,10 +316,11 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state width="263" height="500" key="HiddenNamespacesPopup/0.27.1366.741@0.27.1366.741" timestamp="1604034364392" />
-    <state x="478" y="323" width="369" height="147" key="NewPhpFileDialog" timestamp="1606059578843">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="1366" y="448" width="369" height="147" key="NewPhpFileDialog" timestamp="1606496165468">
+      <screen x="0" y="27" width="3286" height="1053" />
     </state>
     <state x="478" y="323" width="369" height="147" key="NewPhpFileDialog/0.27.1366.741@0.27.1366.741" timestamp="1606059578843" />
+    <state x="1366" y="448" key="NewPhpFileDialog/0.27.3286.1053@0.27.3286.1053" timestamp="1606496165468" />
     <state x="172" y="32" key="SettingsEditor" timestamp="1604201846293">
       <screen x="0" y="27" width="1366" height="741" />
     </state>

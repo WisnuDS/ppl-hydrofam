@@ -99,6 +99,8 @@ class BlogController extends Controller
 
     public function createNewBlog(Request $request)
     {
+        Post::create([
 
+        ]);
     }
 }

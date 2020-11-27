@@ -15,7 +15,7 @@
 {{--                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>--}}
 
 {{--                            <div class="col-md-6">--}}
-{{--                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>--}}
+{{--                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>--}}
 
 {{--                                @error('name')--}}
 {{--                                    <span class="invalid-feedback" role="alert">--}}
@@ -29,7 +29,7 @@
 {{--                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>--}}
 
 {{--                            <div class="col-md-6">--}}
-{{--                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">--}}
+{{--                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">--}}
 
 {{--                                @error('email')--}}
 {{--                                    <span class="invalid-feedback" role="alert">--}}
@@ -43,7 +43,7 @@
 {{--                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>--}}
 
 {{--                            <div class="col-md-6">--}}
-{{--                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">--}}
+{{--                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">--}}
 
 {{--                                @error('password')--}}
 {{--                                    <span class="invalid-feedback" role="alert">--}}
@@ -57,7 +57,7 @@
 {{--                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>--}}
 
 {{--                            <div class="col-md-6">--}}
-{{--                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">--}}
+{{--                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
 
@@ -99,7 +99,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/email_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus id="name">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  autocomplete="name" autofocus id="name">
                         @error('name')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -113,7 +113,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/mail_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" id="email" placeholder="Email">
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" id="email" placeholder="Email">
                         @error('email')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -127,7 +127,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/date_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="date" class="form-control @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}" required autocomplete="birth_date" id="birthDate" placeholder="Birth Date">
+                        <input type="date" class="form-control @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}"  autocomplete="birth_date" id="birthDate" placeholder="Birth Date">
                         @error('birth_date')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -141,7 +141,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/place_form_icon.png')}}" alt=""></span>
                         </div>
-                        <select class="form-control @error('gender') is-invalid @enderror" name="gender" required autocomplete="gender" id="gender">
+                        <select class="form-control @error('gender') is-invalid @enderror" name="gender"  autocomplete="gender" id="gender">
                             <option disabled selected>Choose Your Gender</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
@@ -159,7 +159,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/telp_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required autocomplete="phone_number" id="phone_number" placeholder="Phone Number">
+                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}"  autocomplete="phone_number" id="phone_number" placeholder="Phone Number">
                         @error('phone_number')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -173,7 +173,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/place_form_icon.png')}}" alt=""></span>
                         </div>
-                        <select class="form-control @error('province') is-invalid @enderror" name="province" required autocomplete="province" id="province">
+                        <select class="form-control @error('province') is-invalid @enderror" name="province"  autocomplete="province" id="province">
                             <option disabled selected>Choose Your Province</option>
                             @foreach($indonesia as $province => $city)
                                 <option value="{{$province}}">{{$province}}</option>
@@ -192,7 +192,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/place_form_icon.png')}}" alt=""></span>
                         </div>
-                        <select class="form-control @error('city') is-invalid @enderror" name="city" required autocomplete="city" id="city">
+                        <select class="form-control @error('city') is-invalid @enderror" name="city"  autocomplete="city" id="city">
                             <option disabled selected>Choose Your City</option>
                         </select>
                         @error('city')
@@ -208,7 +208,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/telp_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="text" class="form-control @error('sub_district') is-invalid @enderror" name="sub_district" value="{{ old('sub_district') }}" required autocomplete="sub_district" id="sub_district" placeholder="Sub District">
+                        <input type="text" class="form-control @error('sub_district') is-invalid @enderror" name="sub_district" value="{{ old('sub_district') }}"  autocomplete="sub_district" id="sub_district" placeholder="Sub District">
                         @error('sub_district')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -222,7 +222,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/telp_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="text" class="form-control @error('postal_code') is-invalid @enderror" name="postal_code" value="{{ old('postal_code') }}" required autocomplete="postal_code" id="postal_code" placeholder="Postal Code">
+                        <input type="text" class="form-control @error('postal_code') is-invalid @enderror" name="postal_code" value="{{ old('postal_code') }}"  autocomplete="postal_code" id="postal_code" placeholder="Postal Code">
                         @error('postal_code')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -236,7 +236,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/telp_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="text" class="form-control @error('detail') is-invalid @enderror" name="detail" value="{{ old('detail') }}" required autocomplete="detail" id="detail" placeholder="Detail Address">
+                        <input type="text" class="form-control @error('detail') is-invalid @enderror" name="detail" value="{{ old('detail') }}"  autocomplete="detail" id="detail" placeholder="Detail Address">
                         @error('detail')
                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -250,7 +250,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/password_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" id="password" placeholder="Password">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password" id="password" placeholder="Password">
 
                         @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -266,7 +266,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-lg"><img
                                         src="{{asset('img/password_form_icon.png')}}" alt=""></span>
                         </div>
-                        <input type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" id="password-confirm" placeholder="Confirm Password">
+                        <input type="password" class="form-control" name="password_confirmation"  autocomplete="new-password" id="password-confirm" placeholder="Confirm Password">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary col-md-3 offset-md-9 mt-2">Sign Up</button>

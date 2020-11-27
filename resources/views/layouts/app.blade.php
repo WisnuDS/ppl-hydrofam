@@ -139,6 +139,28 @@
 @include('layouts.navbar')
 <!-- END nav -->
 
+<!-- MODAL LOGOUT CONFIRM -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Caution</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Are you sure to log out?</div>
+            <div class="modal-footer d-flex justify-content-around">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL LOGOUT CONFIRM -->
+
+
 <!-- CONTENT -->
 @yield('content')
 

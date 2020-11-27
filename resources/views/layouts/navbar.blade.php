@@ -45,8 +45,7 @@
                                     <a class="dropdown-item" href="{{route('super.user-management.index')}}">User Management</a>
                             @endif
                             <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                               data-toggle="modal" data-target="#logoutModal">
                                 Logout
                             </a>
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Super;
 
+use App\CanvasUser;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\UserRole;
 use App\Models\User;
@@ -51,7 +52,7 @@ class UserManagementController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('profile')->with(["user" => $user]);
+        return view('profile')->with(["user" => $user,"title"=>"User Profile"]);
     }
 
     /**
@@ -148,6 +149,22 @@ class UserManagementController extends Controller
             $user = User::findOrFail($id);
             $user->retract($user->roles[0]->name);
             $user->assign($request->get('role') == 2? 'admin':'user' );
+            if ($request->get('role') == 2){
+                $admin = \Canvas\Models\User::where('id',$user->id)->get();
+                if (sizeof($admin) == 0){
+                    $newUser = \Canvas\Models\User::create([
+                        "id" => $user->id,
+                        "name" => $user->name,
+                        "email" => $user->email,
+                        "username" => explode(" ",$user->name)[0],
+                        "password" => $user->password
+                    ]);
+                }
+            }else {
+                $delete = CanvasUser::where('id','=',$user->id)->get()->first();
+                $delete->delete();
+            }
+
             toastSuccess("Role Has Been Changed");
             return redirect()->back();
         }catch (Exception $exception){

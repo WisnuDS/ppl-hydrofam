@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.jumbotron', ['title' => 'My Profile'])
+    @include('components.jumbotron', ['title' => $title])
     <!-- DETAIL PROFILE -->
     <section class="ftco-section" style="background-color: white;">
         <div class="container">

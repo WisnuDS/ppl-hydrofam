@@ -22,10 +22,10 @@
         <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url('{{$recent->featured_image}}');"></a>
             <div class="text">
-                <h3 class="heading-1"><a href="{{url('/blog/'.$post->slug)}}">{{$recent->title}}</a></h3>
+                <h3 class="heading-1"><a href="{{url('/blog/'.$recent->slug)}}">{{$recent->title}}</a></h3>
                 <div class="meta">
                     <div><span class="icon-calendar"></span>{{$recent->publiched_at}}</div>
-                    <div><span class="icon-person"></span>{{$recent->user->username}}</div>
+                    <div><span class="icon-person"></span>{{explode($recent->user->name)[0]}}</div>
                     <div><span class="icon-chat"></span>19</div>
                 </div>
             </div>

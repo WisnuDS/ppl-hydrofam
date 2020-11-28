@@ -5,11 +5,14 @@ namespace App\Http\Controllers\User;
 use App\Comment;
 use App\Http\Controllers\Controller;
 use Canvas\Models\Post;
+use Canvas\Models\PostsTags;
+use Canvas\Models\PostsTopics;
 use Canvas\Models\Tag;
 use Canvas\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 
 /**
  * Class BlogController
@@ -25,10 +28,11 @@ class BlogController extends Controller
     {
         $posts = Post::with(['user'])
             ->where('published_at','<>','NULL')
-            ->orderBy('published_at','DESC')
-            ->paginate();
+            ->orderBy('published_at','DESC')->get();
         $sidebar = $this->getSidebarData();
+//        dd($posts);
         return view('blog',compact('posts','sidebar'));
+//        return response()->json($posts);
     }
 
     /**
@@ -99,8 +103,69 @@ class BlogController extends Controller
 
     public function createNewBlog(Request $request)
     {
-        Post::create([
-
+        $validation = $request->validate([
+            "title" => ["required","string"],
+            "slug" => ["required","string","unique:canvas_posts,slug"],
+            "category" => ["required","string"],
+            "tag" => ["required","string"],
+            "content" => ["required","string"],
         ]);
+
+        try {
+            //create new post
+            $newPost = Post::create([
+                "id" => uniqid("post"),
+                "slug" => $request->get("slug"),
+                "user_id" => \auth()->id(),
+                "title" => $request->get("title"),
+                "body" => $request->get("content"),
+                "published_at" => date("Y-m-d h:m:s",now())
+            ]);
+
+            //check category exists
+            $category_exist = Topic::where('name',$request->get("category"))->get();
+            if (sizeof($category_exist)> 0){
+                PostsTopics::create([
+                    "post_id" => $newPost->id,
+                    "topic_id" => $category_exist[0]->id
+                ]);
+            }else{
+                $newTopic = Topic::create([
+                    "id" => uniqid("topic"),
+                    "slug" => str_replace(" ","-",strtolower($request->get("category"))),
+                    "name" => $request->get("category"),
+                    "user_id" => \auth()->id()
+                ]);
+
+                PostsTopics::create([
+                    "post_id" => $newPost->id,
+                    "topic_id" => $newTopic->id
+                ]);
+            }
+
+            $tag_exist = Tag::where('name',$request->get("category"))->get();
+            if (sizeof($tag_exist)> 0){
+                PostsTags::create([
+                    "post_id" => $newPost->id,
+                    "tag_id" => $tag_exist[0]->id
+                ]);
+            }else{
+                $newTag = Tag::create([
+                    "id" => uniqid("tag"),
+                    "slug" => str_replace(" ","-",strtolower($request->get("tag"))),
+                    "name" => $request->get("tag"),
+                    "user_id" => \auth()->id()
+                ]);
+
+                PostsTags::create([
+                    "post_id" => $newPost->id,
+                    "tag_id" => $newTag->id
+                ]);
+            }
+            toastSuccess("Success add new post");
+            return redirect('blog');
+        }catch (Exception $exception){
+            return redirect()->back()->withErrors(["Something went wrong"]);
+        }
     }
 }

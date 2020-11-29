@@ -35,7 +35,7 @@
                                 <div class="text d-block pl-md-4">
                                     <div class="meta mb-3">
                                         <div><span>{{date_format($post->published_at,'d M, Y')}}</span></div>
-                                        <div><span>{{(explode($post->user->name)[0])}}</span></div>
+                                        <div><span>{{$post->user->username}}</span></div>
                                         <div><span class="icon-chat"></span>3</div>
                                     </div>
                                     <h3 class="heading"><a href="{{url('/blog/'.$post->slug)}}">{{$post->title}}</a></h3>

@@ -12,6 +12,7 @@ use Canvas\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
 
 /**
@@ -109,9 +110,16 @@ class BlogController extends Controller
             "category" => ["required","string"],
             "tag" => ["required","string"],
             "content" => ["required","string"],
+            "photo" => ["required","image"]
         ]);
 
         try {
+            if ($request->hasFile("photo")){
+                $extension = $request->photo->extension();
+                $name = uniqid("photo");
+                $request->photo->storeAs('/public', $name.".".$extension);
+                $url = Storage::url($name.".".$extension);
+            }
             //create new post
             $newPost = Post::create([
                 "id" => uniqid("post"),
@@ -119,7 +127,8 @@ class BlogController extends Controller
                 "user_id" => \auth()->id(),
                 "title" => $request->get("title"),
                 "body" => $request->get("content"),
-                "published_at" => date("Y-m-d h:m:s",now())
+                "published_at" => date("Y-m-d h:m:s",now()->getTimestamp()),
+                "featured_image" => $url
             ]);
 
             //check category exists

@@ -27,13 +27,11 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['user'])
+        $posts = \App\Post::with(['user','comment'])
             ->where('published_at','<>','NULL')
             ->orderBy('published_at','DESC')->get();
         $sidebar = $this->getSidebarData();
-//        dd($posts);
         return view('blog',compact('posts','sidebar'));
-//        return response()->json($posts);
     }
 
     /**
@@ -59,8 +57,8 @@ class BlogController extends Controller
     public function getSidebarData()
     {
         $tag = Tag::withoutTrashed()->limit(10)->orderBy('created_at')->get();
-        $topics = Topic::withoutTrashed()->limit(10)->orderBy('created_at')->get();
-        $recent = $posts = Post::with(['user'])
+        $topics = Topic::with("posts")->limit(10)->orderBy('created_at')->get();
+        $recent = $posts = \App\Post::with(['user','comment'])
             ->where('published_at','<>','NULL')
             ->orderBy('published_at','DESC')
             ->limit(3)->get();
@@ -86,7 +84,7 @@ class BlogController extends Controller
     {
         $validation = $request->validate([
             'comment' => 'required|string',
-            'post_id' => 'required|integer|exists:canvas_posts,id'
+            'post_id' => 'required|string|exists:canvas_posts,id'
         ]);
 
         $comment = new Comment();
@@ -152,7 +150,7 @@ class BlogController extends Controller
                 ]);
             }
 
-            $tag_exist = Tag::where('name',$request->get("category"))->get();
+            $tag_exist = Tag::where('name',$request->get("tag"))->get();
             if (sizeof($tag_exist)> 0){
                 PostsTags::create([
                     "post_id" => $newPost->id,
@@ -172,6 +170,101 @@ class BlogController extends Controller
                 ]);
             }
             toastSuccess("Success add new post");
+            return redirect('blog');
+        }catch (Exception $exception){
+            return redirect()->back()->withErrors(["Something went wrong"]);
+        }
+    }
+
+    public function editBlog($id)
+    {
+        $posts = Post::with(["tags","topic"])->where('id',$id)->get()->first();
+        return view('edit_blog')->with(compact('posts'));
+    }
+
+    public function updateBlog(Request $request, $id)
+    {
+        $validation = $request->validate([
+            "title" => ["required","string"],
+            "slug" => ["required","string"],
+            "category" => ["required","string"],
+            "tag" => ["required","string"],
+            "editor" => ["required","string"],
+        ]);
+
+        try {
+            if ($request->hasFile("photo")){
+                $extension = $request->photo->extension();
+                $name = uniqid("photo");
+                $request->photo->storeAs('/public', $name.".".$extension);
+                $url = Storage::url($name.".".$extension);
+            }
+
+            //create new post
+            if (isset($url)){
+                Post::where('id',$id)->update([
+                    "slug" => $request->get("slug"),
+                    "user_id" => \auth()->id(),
+                    "title" => $request->get("title"),
+                    "body" => $request->get("editor"),
+                    "published_at" => date("Y-m-d h:m:s",now()->getTimestamp()),
+                    "featured_image" => $url
+                ]);
+            }else{
+                Post::where('id',$id)->update([
+                    "slug" => $request->get("slug"),
+                    "user_id" => \auth()->id(),
+                    "title" => $request->get("title"),
+                    "body" => $request->get("editor"),
+                    "published_at" => date("Y-m-d h:m:s",now()->getTimestamp())
+                ]);
+            }
+
+            $post = Post::with(["tags","topic"])
+                ->where("id",$id)
+                ->get()->first();
+
+            //check category exists
+            $category_exist = Topic::where('name',$request->get("category"))->get();
+            if (sizeof($category_exist)> 0){
+                PostsTopics::where('post_id',$id)
+                    ->where('topic_id',$post->topic[0]->id)
+                    ->update([
+                    "topic_id" => $category_exist[0]->id
+                ]);
+            }else{
+                $newTopic = Topic::create([
+                    "id" => uniqid("topic"),
+                    "slug" => str_replace(" ","-",strtolower($request->get("category"))),
+                    "name" => $request->get("category"),
+                    "user_id" => \auth()->id()
+                ]);
+
+                PostsTopics::where('post_id',$id)->update([
+                    "topic_id" => $newTopic->id
+                ]);
+            }
+
+            $tag_exist = Tag::where('name',$request->get("tag"))->get();
+            if (sizeof($tag_exist)> 0){
+                PostsTags::where('post_id',$id)
+                    ->where('tag_id',$post->tags[0]->id)
+                    ->update([
+                    "tag_id" => $tag_exist[0]->id
+                ]);
+            }else{
+                $newTag = Tag::create([
+                    "id" => uniqid("tag"),
+                    "slug" => str_replace(" ","-",strtolower($request->get("tag"))),
+                    "name" => $request->get("tag"),
+                    "user_id" => \auth()->id()
+                ]);
+
+                PostsTags::where('post_id',$id)->update([
+                    "tag_id" => $newTag->id
+                ]);
+            }
+            toastSuccess("Success update post");
             return redirect('blog');
         }catch (Exception $exception){
             return redirect()->back()->withErrors(["Something went wrong"]);

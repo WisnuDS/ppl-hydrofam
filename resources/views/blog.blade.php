@@ -34,9 +34,9 @@
                                 </a>
                                 <div class="text d-block pl-md-4">
                                     <div class="meta mb-3">
-                                        <div><span>{{date_format($post->published_at,'d M, Y')}}</span></div>
+                                        <div><span>{{date('d M, Y',strtotime($post->published_at))}}</span></div>
                                         <div><span>{{$post->user->username}}</span></div>
-                                        <div><span class="icon-chat"></span>3</div>
+                                        <div><span class="icon-chat"></span>{{count($post->comment)}}</div>
                                     </div>
                                     <h3 class="heading"><a href="{{url('/blog/'.$post->slug)}}">{{$post->title}}</a></h3>
                                     <p>{{$post->summary}}</p>

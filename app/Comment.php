@@ -37,6 +37,6 @@ class Comment extends Model
 
     public function post()
     {
-        return $this->belongsTo('Canvas\Models\Post');
+        return $this->belongsTo('App\Post');
     }
 }

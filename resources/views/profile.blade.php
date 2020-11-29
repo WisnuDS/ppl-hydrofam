@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.jumbotron', ['title' => 'My Profile'])
+    @include('components.jumbotron', ['title' => $title])
     <!-- DETAIL PROFILE -->
     <section class="ftco-section" style="background-color: white;">
         <div class="container">
@@ -137,26 +137,29 @@
                 @if(auth()->user()->isA('super'))
                 <div class="col-xl-5">
                     <div class="row mt-5 pt-3">
-                        <div class="col-md-12 d-flex mb-2">
-                            <div class="col-md-6">
-                                <label for="name">Changes Roles</label>
+                        @if($user->roles[0]->name != 'super')
+                            <div class="col-md-12 d-flex mb-2">
+                                <div class="col-md-6">
+                                    <label for="name">Changes Roles</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <form action="{{route('super.update.role',["id"=>$user->id])}}" method="POST" id="changeRoleOption">
+                                        @csrf
+                                        <select id="myselect" class="form-control"
+                                                style="font-size: 13px;height: 40px!important;" name="role">
+                                            <option selected disabled>Changes Roles</option>
+                                            @if($user->roles[0]->name == 'admin')
+                                                <option value="2" selected>Admin</option>
+                                                <option value="3">Consumer</option>
+                                            @elseif($user->roles[0]->name == 'user')
+                                                <option value="2">Admin</option>
+                                                <option value="3" selected>Consumer</option>
+                                            @endif
+                                        </select>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <form action="">
-                                    <select id="myselect" class="form-control"
-                                            style="font-size: 13px;height: 40px!important;">
-                                        <option selected disabled>Changes Roles</option>
-                                        @if($user->roles[0]->name == 'admin')
-                                            <option value="2" selected>Admin</option>
-                                            <option value="3">Consumer</option>
-                                        @else
-                                            <option value="2">Admin</option>
-                                            <option value="3" selected>Consumer</option>
-                                        @endif
-                                    </select>
-                                </form>
-                            </div>
-                        </div>
+                        @endif
                         <div class="col-md-12 d-flex mb-1">
                             <div class="cart-detail cart-total p-3 p-md-4">
                                 <div>
@@ -218,15 +221,16 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Change this person's roles</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true" onclick="closeModal()">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to change this person's roles?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Yes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" onclick="event.preventDefault();
+                                document.getElementById('changeRoleOption').submit();">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">No</button>
                 </div>
             </div>
         </div>
@@ -239,10 +243,17 @@
             $('#myselect').change(function () { //jQuery Change Function
                 var opval = $(this).val(); //Get value from select element
                 if (opval == 2 || opval == 3) { //Compare it and if true
-                    $('#myModal').modal("show"); //Open Modal
+                    $('#myModal').show(); //Open Modal
                 }
             });
+
         });
+
+        function closeModal() {
+            $('#myModal').hide();
+            $('#myselect').val({{$user->roles[0]->name == 'admin'? 2: 3}})
+        }
+
     </script>
 @endpush
 

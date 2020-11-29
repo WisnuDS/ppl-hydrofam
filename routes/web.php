@@ -25,6 +25,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => 'role:super', 'prefix' => 'super', 'as' => 'super.'], function() {
     Route::get('/home','App\Http\Controllers\Super\HomeController@index');
     Route::resource('user-management', 'App\Http\Controllers\Super\UserManagementController');
+    Route::post('user-management/update-role/{id}', 'App\Http\Controllers\Super\UserManagementController@updateRole')->name('update.role');
+    Route::view('/create-blog','field_blog');
+    Route::get('/edit-blog/{id}','\App\Http\Controllers\User\BlogController@editBlog');
+    Route::post('/update-blog/{id}','\App\Http\Controllers\User\BlogController@updateBlog');
+    Route::post('/create-new-blog','\App\Http\Controllers\User\BlogController@createNewBlog');
 });
 
 //route admin
@@ -32,6 +37,9 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.
     Route::get('/home','App\Http\Controllers\Admin\HomeController@index');
 //    Route::get('/home','App\Http\Controllers\Admin\HomeController@index');
     Route::view('/create-blog','field_blog');
+    Route::post('/create-new-blog','\App\Http\Controllers\User\BlogController@createNewBlog');
+    Route::get('/edit-blog/{id}','\App\Http\Controllers\User\BlogController@editBlog');
+    Route::post('/update-blog/{id}','\App\Http\Controllers\User\BlogController@updateBlog');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
 });
 

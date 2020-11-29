@@ -15,8 +15,13 @@
                 @if(!auth()->guest())
                     @if(auth()->user()->isA('admin') || auth()->user()->isA('super'))
                         <div class="col-lg-2 offset-10 ftco-animate">
-                            <a href="{{url('admin/create-blog')}}" class="btn btn-outline-dark mb-3" style="width: 100%;"><span><img
-                                        src="{{asset('img/icons/edit-round.png')}}" alt="" class="admin_new_post_icon" width="20"></span> New Post</a>
+                            @if(auth()->user()->isA('admin'))
+                                <a href="{{url('admin/create-blog')}}" class="btn btn-outline-dark mb-3" style="width: 100%;"><span><img
+                                            src="{{asset('img/icons/edit-round.png')}}" alt="" class="admin_new_post_icon" width="20"></span> New Post</a>
+                            @else
+                                <a href="{{url('super/create-blog')}}" class="btn btn-outline-dark mb-3" style="width: 100%;"><span><img
+                                            src="{{asset('img/icons/edit-round.png')}}" alt="" class="admin_new_post_icon" width="20"></span> New Post</a>
+                            @endif
                         </div>
                     @endif
                 @endif
@@ -29,9 +34,9 @@
                                 </a>
                                 <div class="text d-block pl-md-4">
                                     <div class="meta mb-3">
-                                        <div><span>{{date_format($post->published_at,'d M, Y')}}</span></div>
+                                        <div><span>{{date('d M, Y',strtotime($post->published_at))}}</span></div>
                                         <div><span>{{$post->user->username}}</span></div>
-                                        <div><span class="icon-chat"></span>3</div>
+                                        <div><span class="icon-chat"></span>{{count($post->comment)}}</div>
                                     </div>
                                     <h3 class="heading"><a href="{{url('/blog/'.$post->slug)}}">{{$post->title}}</a></h3>
                                     <p>{{$post->summary}}</p>

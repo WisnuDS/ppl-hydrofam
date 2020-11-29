@@ -2,22 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50a2296c-44e3-4c81-8ff5-6e1dcdecd67d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Super/UserManagementController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/icons/edit-round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/field_blog.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/user_management.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Hydrofamp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Hydrofamp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Post.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/PostModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/edit_blog.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Super/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Super/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Comment.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/User/BlogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/User/BlogController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_30_161032_create_comments_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_30_161032_create_comments_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/blog.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/blog.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/navbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/field_blog.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/field_blog.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/post.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/post.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +55,13 @@
         <item name="DBhydrofam@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="DBhydrofam: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="DBhydrofam@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="DBhydrofam: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="comments: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -270,6 +275,8 @@
       <workItem from="1605621490861" duration="622000" />
       <workItem from="1605628542162" duration="6856000" />
       <workItem from="1606056841784" duration="7816000" />
+      <workItem from="1606116977729" duration="1855000" />
+      <workItem from="1606488596857" duration="47782000" />
     </task>
     <servers />
   </component>
@@ -316,10 +323,11 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state width="263" height="500" key="HiddenNamespacesPopup/0.27.1366.741@0.27.1366.741" timestamp="1604034364392" />
-    <state x="478" y="323" width="369" height="147" key="NewPhpFileDialog" timestamp="1606059578843">
+    <state x="478" y="323" width="369" height="147" key="NewPhpFileDialog" timestamp="1606628704052">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="478" y="323" width="369" height="147" key="NewPhpFileDialog/0.27.1366.741@0.27.1366.741" timestamp="1606059578843" />
+    <state x="478" y="323" width="369" height="147" key="NewPhpFileDialog/0.27.1366.741@0.27.1366.741" timestamp="1606628704052" />
+    <state x="1366" y="448" key="NewPhpFileDialog/0.27.3286.1053@0.27.3286.1053" timestamp="1606496165468" />
     <state x="172" y="32" key="SettingsEditor" timestamp="1604201846293">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
@@ -336,5 +344,9 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="347" y="176" key="run.anything.popup/0.27.1366.741@0.27.1366.741" timestamp="1604253803219" />
+    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1606565999575">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="346" y="89" width="672" height="678" key="search.everywhere.popup/0.27.1366.741@0.27.1366.741" timestamp="1606565999575" />
   </component>
 </project>

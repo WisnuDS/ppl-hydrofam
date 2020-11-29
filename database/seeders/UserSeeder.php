@@ -34,6 +34,14 @@ class UserSeeder extends Seeder
             'role_id' => 1
         ]);
 
+        DB::table('canvas_users')->insert([
+            "id" => 1,
+            "name" => "Super",
+            "email" => "super@hydrofam.co",
+            "username" => "Super",
+            "password" => Hash::make('super123')
+        ]);
+
         DB::table('users')->insert([
             'name' => "Admin",
             'email' => "admin@hydrofam.co",
@@ -51,6 +59,14 @@ class UserSeeder extends Seeder
         DB::table('user_role')->insert([
             'user_id' => 2,
             'role_id' => 2
+        ]);
+
+        DB::table('canvas_users')->insert([
+            "id" => 2,
+            "name" => "Admin",
+            "email" => "admin@hydrofam.co",
+            "username" => "Admin",
+            "password" => Hash::make('admin123')
         ]);
 
         DB::table('users')->insert([

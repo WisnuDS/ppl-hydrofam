@@ -31,105 +31,9 @@
 
     <link rel="stylesheet" href="{{asset('css/flaticon.css')}}">
     <link rel="stylesheet" href="{{asset('css/icomoon.css')}}">
+    @stack('data-tables')
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     @toastr_css
-    <style>
-        .thisClose {
-            float: right;
-            cursor: pointer;
-        }
-
-        input[type=text],
-        input[type=password],
-        input[type=email] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        .btn-lr {
-            background-color: #82ae46;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .btn-lr:hover {
-            opacity: 0.8;
-        }
-
-        .thisContainer {
-            padding: 16px;
-        }
-
-        span.psw {
-            padding-top: 16px;
-        }
-
-        .popUpLog {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding-top: 100px;
-        }
-
-        .popUpReg {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .popUp-content {
-            background-color: #fefefe;
-            padding: 2%;
-            margin: 5% auto 15% auto;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-
-        /* CSS3 */
-        .animate {
-            -webkit-animation: animatezoom 0.6s;
-            animation: animatezoom 0.6s
-        }
-
-        @-webkit-keyframes animatezoom {
-            from {
-                -webkit-transform: scale(0)
-            }
-
-            to {
-                -webkit-transform: scale(1)
-            }
-        }
-
-        @keyframes animatezoom {
-            from {
-                transform: scale(0)
-            }
-
-            to {
-                transform: scale(1)
-            }
-        }
-    </style>
     <link rel="stylesheet" href="{{asset('css/custom_style.css')}}">
     @stack('styles')
 </head>
@@ -199,33 +103,6 @@
         </script>
     @endforeach
 @endif
-
-<script>
-    function thisClickedLog() {
-        document.getElementById('popLog').style.display = 'block';
-    }
-    function thisClickedLogC() {
-        document.getElementById('popLog').style.display = 'none';
-    }
-    var openCloseLog = document.getElementsByClassName('thisClose');
-    window.onclick = function (event) {
-        if (event.target == openCloseLog) {
-            openCloseLog.style.display = "none";
-        }
-    }
-    function thisClickedReg() {
-        document.getElementById('popReg').style.display = 'block';
-    }
-    function thisClickedRegC() {
-        document.getElementById('popReg').style.display = 'none';
-    }
-    var openCloseReg = document.getElementById('popReg');
-    window.onclick = function (event) {
-        if (event.target == openCloseReg) {
-            openCloseReg.style.display = "none";
-        }
-    }
-</script>
 @stack('scripts')
 </body>
 

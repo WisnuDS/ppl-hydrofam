@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use App\ItemSelected;
+use App\Lib\ResponseBase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -161,5 +163,39 @@ class ShopController extends Controller
     {
         $item = Item::find($id);
         return response()->json($item);
+    }
+
+    public function addToCart(Request $request)
+    {
+        $validation = Validator::make($request->all(),[
+            "item_id" => ["required","integer","exists:items,id"],
+            "quantity" => ["required","integer"]
+        ]);
+
+        if ($validation->fails()){
+            return response()->json(ResponseBase::failedResponse(400,"Invalid request parameter", ["error" => $validation->failed()]));
+        }
+
+        ItemSelected::create([
+            "transaction_id" => null,
+            "item_id" => $request->item_id,
+            "user_id" => auth()->id(),
+            "quantity" => $request->quantity,
+            "status" => 1
+        ]);
+
+        $item = Item::find($request->item_id);
+        $item->unit-= $request->quantity;
+        $item->save();
+        return response()->json(ResponseBase::successResponse("Success Add to chart"));
+    }
+
+    public function getAllCart()
+    {
+        $itemSelected = ItemSelected::with(['item'])
+            ->where('status',1)
+            ->where('user_id',auth()->id())
+            ->get();
+        return response()->json(ResponseBase::successResponse("Success get All Data Cart",["data"=>$itemSelected]));
     }
 }

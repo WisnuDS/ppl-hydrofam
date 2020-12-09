@@ -50,8 +50,8 @@
                             </a>
                         </div>
                     </li>
-                <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span
-                            class="icon-shopping_cart"></span>[0]</a></li>
+                <li class="nav-item cta cta-colored"><a href="{{url('user/cart')}}" class="nav-link"><span
+                            class="icon-shopping_cart"></span>[@{{ totalCart }}]</a></li>
                 <!-- END Ditamplikan saat user sudah login -->
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf

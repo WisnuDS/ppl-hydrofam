@@ -48,6 +48,7 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.
 Route::group(['middleware' => ['role:user','activity'], 'prefix' => 'user', 'as' => 'user.'], function() {
     Route::get('/home','App\Http\Controllers\User\HomeController@index');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
+    Route::resource('/cart', 'App\Http\Controllers\CartController')->only(['index']);
 //    Route::resource('/shop','App\Http\Controllers\ShopController')->only('index','show');
 });
 
@@ -84,5 +85,11 @@ Route::resource('/shop','App\Http\Controllers\ShopController')->only(['index','s
 //Api Route
 Route::group(["prefix"=>"api"], function (){
     Route::get('/product/{id}',[\App\Http\Controllers\ShopController::class,'getSingleProduct']);
+    Route::group(["middleware" => "role:user"],function (){
+        Route::group(["prefix"=>"cart"],function (){
+            Route::post('add',[\App\Http\Controllers\ShopController::class,'addToCart']);
+            Route::get('all',[\App\Http\Controllers\ShopController::class,'getAllCart']);
+        });
+    });
 });
 

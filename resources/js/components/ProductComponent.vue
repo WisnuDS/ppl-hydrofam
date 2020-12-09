@@ -71,6 +71,25 @@
                 </div>
             </div>
         </div>
+        <!-- MODAL CARTVERIFY CONFIRM -->
+        <div class="modal fade" id="cartVerifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Caution</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Add this product to cart?</div>
+                    <div class="modal-footer d-flex justify-content-around">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addToChart">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MODAL CARTVERIFY CONFIRM -->
     </section>
 </template>
 
@@ -102,6 +121,28 @@
                     toastr.error("Input cannot be less than 0")
                 }else if (newVal == '00'){
                     this.quantity = 0
+                }
+            }
+        },
+        methods:{
+            addToChart(){
+                if (this.quantity !== 0 && this.quantity < this.singleProduct.unit){
+                    axios.post('/api/cart/add',{
+                        item_id : this.singleProduct.id,
+                        quantity : this.quantity,
+                        _token : window.token
+                    }).then(result => {
+                        if (result.data.status === 200){
+                            this.$parent.$data.totalCart++;
+                            toastr.success("Item successfully added to cart")
+                        }else {
+                            toastr.error("Something went wrong")
+                        }
+                    }).catch(err => {
+                        toastr.error("Something went wrong")
+                    })
+                }else {
+                    toastr.error("Your input exceeds the available stock")
                 }
             }
         }

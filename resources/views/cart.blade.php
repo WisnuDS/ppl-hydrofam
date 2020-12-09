@@ -160,7 +160,7 @@
 							<span>Rp 156.000</span>
 						</p>
 					</div>
-					<p><a href="checkout.html" class="btn btn-primary py-3 px-4"
+					<p><a href="{{url('users/checkout')}}" class="btn btn-primary py-3 px-4"
 							onclick="return confirm('Are you sure want to checkout your cart?')">Proceed to Checkout</a>
 					</p>
 				</div>

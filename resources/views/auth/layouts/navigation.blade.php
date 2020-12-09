@@ -9,7 +9,7 @@
         <div class="navbar-nav">
             <a class="nav-link active" href="{{url('/')}}">Home</a>
             <a class="nav-link" href="{{url('/blog')}}">Blog</a>
-            <a class="nav-link" href="#">Shop</a>
+            <a class="nav-link" href="#">Products</a>
             <a class="nav-link" href="#">About</a>
         </div>
     </div>

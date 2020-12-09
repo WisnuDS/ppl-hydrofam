@@ -90,4 +90,5 @@ Route::view('admin/products/new','field_product');
 Route::view('super/products/new','field_product');
 Route::view('admin/products/id-product/edit','field_product');
 Route::view('super/products/id-product/edit','field_product');
+Route::view('users/cart','cart');
 // END FRONTEND VIEW ROUTE

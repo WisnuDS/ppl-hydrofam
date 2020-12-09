@@ -93,6 +93,7 @@
 <script src="{{ asset('js/scrollax.min.js') }}"></script>
 <script src="{{ asset('js/google-map.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+@stack('scripts_addons')
 @jquery
 @toastr_js
 @toastr_render

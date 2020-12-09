@@ -15,7 +15,7 @@
     font-weight: 900;
 }
 #timer .time{
-    color: white;
+    color: white!important;
 }
 .foto_profil_user{
     border-radius: 50%;
@@ -23,4 +23,10 @@
 }
 .user_profile_detail{
     width: 18em;
+}
+.admin_new_post_icon{
+    width: 1em;
+}
+.product_outOfstock{
+    opacity: 0.5;
 }

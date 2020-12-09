@@ -82,3 +82,12 @@ Route::prefix('blog')->group(function (){
 //         ->where('view', '(.*)')
 //         ->name('canvas-ui');
 //});
+
+// FRONTEND VIEW ROUTE
+Route::view('/products','products');
+Route::view('/products/id-product','products_single');
+Route::view('admin/products/new','field_product');
+Route::view('super/products/new','field_product');
+Route::view('admin/products/id-product/edit','field_product');
+Route::view('super/products/id-product/edit','field_product');
+// END FRONTEND VIEW ROUTE

@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}" />
+
     <link rel="stylesheet" href="{{asset('css/open-iconic-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/animate.css')}}">
 
@@ -135,6 +137,7 @@
 </head>
 
 <body class="goto-here">
+<div id="app">
 <!-- START NAV -->
 @include('layouts.navbar')
 <!-- END nav -->
@@ -167,8 +170,10 @@
 <!-- FOOTER -->
 @include('layouts.footer')
 <!-- END FOOTER -->
-
+</div>
 <!-- loader -->
+<script>window.token = "{{csrf_token()}}";</script>
+<script src="{{mix('js/app.js')}}"></script>
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
         <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
         <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
@@ -200,32 +205,32 @@
     @endforeach
 @endif
 
-<script>
-    function thisClickedLog() {
-        document.getElementById('popLog').style.display = 'block';
-    }
-    function thisClickedLogC() {
-        document.getElementById('popLog').style.display = 'none';
-    }
-    var openCloseLog = document.getElementsByClassName('thisClose');
-    window.onclick = function (event) {
-        if (event.target == openCloseLog) {
-            openCloseLog.style.display = "none";
-        }
-    }
-    function thisClickedReg() {
-        document.getElementById('popReg').style.display = 'block';
-    }
-    function thisClickedRegC() {
-        document.getElementById('popReg').style.display = 'none';
-    }
-    var openCloseReg = document.getElementById('popReg');
-    window.onclick = function (event) {
-        if (event.target == openCloseReg) {
-            openCloseReg.style.display = "none";
-        }
-    }
-</script>
+{{--<script>--}}
+{{--    function thisClickedLog() {--}}
+{{--        document.getElementById('popLog').style.display = 'block';--}}
+{{--    }--}}
+{{--    function thisClickedLogC() {--}}
+{{--        document.getElementById('popLog').style.display = 'none';--}}
+{{--    }--}}
+{{--    var openCloseLog = document.getElementsByClassName('thisClose');--}}
+{{--    window.onclick = function (event) {--}}
+{{--        if (event.target == openCloseLog) {--}}
+{{--            openCloseLog.style.display = "none";--}}
+{{--        }--}}
+{{--    }--}}
+{{--    function thisClickedReg() {--}}
+{{--        document.getElementById('popReg').style.display = 'block';--}}
+{{--    }--}}
+{{--    function thisClickedRegC() {--}}
+{{--        document.getElementById('popReg').style.display = 'none';--}}
+{{--    }--}}
+{{--    var openCloseReg = document.getElementById('popReg');--}}
+{{--    window.onclick = function (event) {--}}
+{{--        if (event.target == openCloseReg) {--}}
+{{--            openCloseReg.style.display = "none";--}}
+{{--        }--}}
+{{--    }--}}
+{{--</script>--}}
 @stack('scripts')
 </body>
 

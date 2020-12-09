@@ -141,6 +141,7 @@ class UserManagementController extends Controller
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'role' => ['required', 'integer'],
         ]);
+
         if ($validator->fails()){
             return back()->withErrors($validator->errors())->withInput();
         }
@@ -160,9 +161,6 @@ class UserManagementController extends Controller
                         "password" => $user->password
                     ]);
                 }
-            }else {
-                $delete = CanvasUser::where('id','=',$user->id)->get()->first();
-                $delete->delete();
             }
 
             toastSuccess("Role Has Been Changed");

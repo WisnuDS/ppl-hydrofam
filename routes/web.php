@@ -30,25 +30,28 @@ Route::group(['middleware' => 'role:super', 'prefix' => 'super', 'as' => 'super.
     Route::get('/edit-blog/{id}','\App\Http\Controllers\User\BlogController@editBlog');
     Route::post('/update-blog/{id}','\App\Http\Controllers\User\BlogController@updateBlog');
     Route::post('/create-new-blog','\App\Http\Controllers\User\BlogController@createNewBlog');
+    Route::resource('/shop','App\Http\Controllers\ShopController')->except('index','show');
 });
 
 //route admin
 Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('/home','App\Http\Controllers\Admin\HomeController@index');
-//    Route::get('/home','App\Http\Controllers\Admin\HomeController@index');
     Route::view('/create-blog','field_blog');
     Route::post('/create-new-blog','\App\Http\Controllers\User\BlogController@createNewBlog');
     Route::get('/edit-blog/{id}','\App\Http\Controllers\User\BlogController@editBlog');
     Route::post('/update-blog/{id}','\App\Http\Controllers\User\BlogController@updateBlog');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
+    Route::resource('/shop','App\Http\Controllers\ShopController')->except('index','show');
 });
 
 //route user
 Route::group(['middleware' => ['role:user','activity'], 'prefix' => 'user', 'as' => 'user.'], function() {
     Route::get('/home','App\Http\Controllers\User\HomeController@index');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
+//    Route::resource('/shop','App\Http\Controllers\ShopController')->only('index','show');
 });
 
+//Canvas API Route
 Route::prefix('blog')->group(function (){
     Route::prefix('api')->group(function () {
         Route::get('posts', [\App\Http\Controllers\CanvasUiController::class, 'getPosts']);
@@ -75,10 +78,11 @@ Route::prefix('blog')->group(function (){
     Route::get('/{view}', [\App\Http\Controllers\User\BlogController::class, 'singlePost']);
 });
 
-//Route::prefix('canvas-ui')->group(function () {
-//
-//
-//    Route::get('/{view?}', [\App\Http\Controllers\CanvasUiController::class, 'index'])
-//         ->where('view', '(.*)')
-//         ->name('canvas-ui');
-//});
+//Blog Route For Guest
+Route::resource('/shop','App\Http\Controllers\ShopController')->only(['index','show']);
+
+//Api Route
+Route::group(["prefix"=>"api"], function (){
+    Route::get('/product/{id}',[\App\Http\Controllers\ShopController::class,'getSingleProduct']);
+});
+

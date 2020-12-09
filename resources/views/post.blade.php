@@ -6,7 +6,6 @@
 
 @section('content')
     @include('components.jumbotron', ['title'=>$post->title])
-    <div id="blog">
     <section class="ftco-section ftco-degree-bg">
         <div class="container">
             <div class="row">
@@ -42,11 +41,9 @@
             </div>
         </div>
     </section>
-    </div>
 @endsection
 @push('scripts')
     <script>window.token = "{{csrf_token()}}";</script>
-    <script src="{{asset('js/app.js')}}"></script>
-
+    <script src="{{mix('js/app.js')}}"></script>
 @endpush
 

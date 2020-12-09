@@ -10,7 +10,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="{{url('/blog')}}" class="nav-link">Blog</a></li>
-                <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
+                <li class="nav-item"><a href="{{url('/shop')}}" class="nav-link">Shop</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">About</a></li>
                 @if(\Illuminate\Support\Facades\Auth::guest())
                 <li class="nav-item dropdown">

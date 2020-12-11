@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{{asset('css/icomoon.css')}}">
     @stack('data-tables')
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    @stack('data-tables-transaction')
     @toastr_css
     <link rel="stylesheet" href="{{asset('css/custom_style.css')}}">
     @stack('styles')
@@ -93,6 +94,7 @@
 <script src="{{ asset('js/scrollax.min.js') }}"></script>
 <script src="{{ asset('js/google-map.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+@stack('scripts_addons')
 @jquery
 @toastr_js
 @toastr_render

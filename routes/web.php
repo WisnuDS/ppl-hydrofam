@@ -82,3 +82,18 @@ Route::prefix('blog')->group(function (){
 //         ->where('view', '(.*)')
 //         ->name('canvas-ui');
 //});
+
+// FRONTEND VIEW ROUTE
+Route::view('/products','products');
+Route::view('/products/id-product','products_details');
+Route::view('admin/products/new','field_product');
+Route::view('super/products/new','field_product');
+Route::view('admin/products/id-product/edit','field_product');
+Route::view('super/products/id-product/edit','field_product');
+Route::view('users/cart','cart');
+Route::view('users/checkout','checkout');
+Route::view('admin/transaction','transaction');
+Route::view('super/transaction','transaction');
+Route::view('admin/transaction/id-transaction','transaction_details');
+Route::view('super/transaction/id-transaction','transaction_details');
+// END FRONTEND VIEW ROUTE

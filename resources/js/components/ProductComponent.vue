@@ -126,7 +126,7 @@
         },
         methods:{
             addToChart(){
-                if (this.quantity !== 0 && this.quantity < this.singleProduct.unit){
+                if (this.quantity !== 0 && this.quantity <= this.singleProduct.unit){
                     axios.post('/api/cart/add',{
                         item_id : this.singleProduct.id,
                         quantity : this.quantity,

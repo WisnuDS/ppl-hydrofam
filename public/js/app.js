@@ -1920,6 +1920,8 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -2118,9 +2120,28 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CartComponent",
   props: ['cart'],
+  data: function data() {
+    return {
+      address: {},
+      editQuantity: 0,
+      indexEdit: 0,
+      productName: '',
+      idProduct: 0
+    };
+  },
+  mounted: function mounted() {
+    this.loadAddress();
+  },
   computed: {
     total: function total() {
       var total = 0;
@@ -2140,6 +2161,63 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       return total;
+    }
+  },
+  methods: {
+    loadAddress: function loadAddress() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/address').then(function (result) {
+        if (result.data.status === 200) {
+          _this.address = result.data.data;
+        } else {
+          toastr.error("Failed to load address");
+        }
+      })["catch"](function (err) {
+        toastr.error("Failed to load address");
+      });
+    },
+    openModal: function openModal(quantity, index, productName, id) {
+      this.editQuantity = quantity;
+      this.indexEdit = index;
+      this.productName = productName;
+      this.idProduct = id;
+    },
+    updateCart: function updateCart() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/cart/update/' + this.idProduct, {
+        quantity: this.editQuantity,
+        _token: window.token
+      }).then(function (result) {
+        if (result.data.status === 200) {
+          toastr.success(result.data.message);
+
+          _this2.$parent.loadCart();
+        } else {
+          toastr.error(result.data.message);
+        }
+      })["catch"](function (err) {
+        toastr.error("Failed Update Cart");
+      });
+    },
+    deleteCart: function deleteCart() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/cart/delete/' + this.idProduct, {
+        quantity: this.editQuantity,
+        _token: window.token
+      }).then(function (result) {
+        if (result.data.status === 200) {
+          toastr.success(result.data.message);
+
+          _this3.$parent.loadCart();
+        } else {
+          toastr.error(result.data.message);
+        }
+      })["catch"](function (err) {
+        toastr.error("Failed Delete Cart");
+      });
     }
   }
 });
@@ -2288,7 +2366,7 @@ __webpack_require__.r(__webpack_exports__);
     addToChart: function addToChart() {
       var _this2 = this;
 
-      if (this.quantity !== 0 && this.quantity < this.singleProduct.unit) {
+      if (this.quantity !== 0 && this.quantity <= this.singleProduct.unit) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/cart/add', {
           item_id: this.singleProduct.id,
           quantity: this.quantity,
@@ -21660,7 +21738,7 @@ var render = function() {
                 _c(
                   "tbody",
                   [
-                    _vm._l(_vm.cart, function(datum) {
+                    _vm._l(_vm.cart, function(datum, index) {
                       return [
                         _c(
                           "tr",
@@ -21669,7 +21747,105 @@ var render = function() {
                             attrs: { id: "item1" }
                           },
                           [
-                            _vm._m(1, true),
+                            _c(
+                              "td",
+                              { staticClass: "product-remove" },
+                              [
+                                datum.item.unit > 0
+                                  ? [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "mr-2",
+                                          attrs: {
+                                            href: "#",
+                                            "data-toggle": "modal",
+                                            "data-target": "#editCart",
+                                            onclick: "modal('item1')"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openModal(
+                                                datum.quantity,
+                                                index,
+                                                datum.item.item_name,
+                                                datum.id
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "ion-ios-create" },
+                                            [_vm._v("Edit")]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "a",
+                                        {
+                                          attrs: {
+                                            href: "#",
+                                            "data-toggle": "modal",
+                                            "data-target": "#removeCart"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openModal(
+                                                datum.quantity,
+                                                index,
+                                                datum.item.item_name,
+                                                datum.id
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "ion-ios-trash" },
+                                            [_vm._v("Remove")]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  : [
+                                      _vm._v(
+                                        "\n                                                Out of Stock\n                                                "
+                                      ),
+                                      _c(
+                                        "a",
+                                        {
+                                          attrs: {
+                                            href: "#",
+                                            "data-toggle": "modal",
+                                            "data-target": "#removeCart"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openModal(
+                                                datum.quantity,
+                                                index,
+                                                datum.item.item_name,
+                                                datum.id
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "ion-ios-trash" },
+                                            [_vm._v("Remove")]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                              ],
+                              2
+                            ),
                             _vm._v(" "),
                             _c("td", { staticClass: "image-prod" }, [
                               _c("div", {
@@ -21731,7 +21907,190 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row justify-content-end" }, [
-          _vm._m(2),
+          _c("div", { staticClass: "col-lg-8 mt-5 cart-wrap ftco-animate" }, [
+            _c("div", { staticClass: "cart-total mb-3" }, [
+              _c("h3", [_vm._v("Destination")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "info d-flex", attrs: { action: "#" } },
+                [
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "province" } }, [
+                        _vm._v("Province")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.address.province,
+                            expression: "address.province"
+                          }
+                        ],
+                        staticClass: "form-control text-left px-3",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Jawa Timur",
+                          readonly: "",
+                          id: "province",
+                          name: "province"
+                        },
+                        domProps: { value: _vm.address.province },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.address,
+                              "province",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "city" } }, [_vm._v("City")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.address.city,
+                            expression: "address.city"
+                          }
+                        ],
+                        staticClass: "form-control text-left px-3",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Kab.Jember",
+                          readonly: "",
+                          id: "city",
+                          name: "city"
+                        },
+                        domProps: { value: _vm.address.city },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.address, "city", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "sub_district" } }, [
+                        _vm._v("Sub District")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.address.sub_district,
+                            expression: "address.sub_district"
+                          }
+                        ],
+                        staticClass: "form-control text-left px-3",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Sumbersari",
+                          readonly: "",
+                          id: "sub-district",
+                          name: "sub-district"
+                        },
+                        domProps: { value: _vm.address.sub_district },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.address,
+                              "sub_district",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "postal_code" } }, [
+                        _vm._v("Postal Code")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.address.postal_code,
+                            expression: "address.postal_code"
+                          }
+                        ],
+                        staticClass: "form-control text-left px-3",
+                        attrs: {
+                          type: "text",
+                          placeholder: "68121",
+                          readonly: "",
+                          id: "postal_code",
+                          name: "postal_code"
+                        },
+                        domProps: { value: _vm.address.postal_code },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.address,
+                              "postal_code",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "postal_code" } }, [
+                        _vm._v("Details Address")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "textarea",
+                        {
+                          staticClass: "form-control text-left pl-3 pt-1",
+                          attrs: {
+                            name: "details_address",
+                            id: "details_address",
+                            cols: "30",
+                            rows: "10",
+                            placeholder:
+                              "Kampus Tegalboto, Jl. Kalimantan No.37, Krajan Timur, Sumbersari",
+                            readonly: ""
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.address.detail))]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-lg-4 mt-5 cart-wrap ftco-animate" }, [
             _c("div", { staticClass: "cart-total mb-3" }, [
@@ -21743,9 +22102,9 @@ var render = function() {
                 _c("span", [_vm._v("Rp " + _vm._s(_vm.total))])
               ]),
               _vm._v(" "),
-              _vm._m(3),
+              _vm._m(1),
               _vm._v(" "),
-              _vm._m(4),
+              _vm._m(2),
               _vm._v(" "),
               _c("hr"),
               _vm._v(" "),
@@ -21756,15 +22115,173 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(5)
+            _vm._m(3)
           ])
         ])
       ])
     ]),
     _vm._v(" "),
-    _vm._m(6),
+    _c(
+      "div",
+      {
+        ref: "modal",
+        staticClass: "modal fade",
+        attrs: {
+          id: "editCart",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal-body",
+                attrs: { id: "modal_edit_cart_body" }
+              },
+              [
+                _c("div", { staticClass: "container-fluid" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _vm._v("Product Name")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-md-4 ml-auto",
+                        attrs: { id: "modal_edit_cart_body_product_name" }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.productName) +
+                            "\n                            "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _vm._v("Quantity")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 ml-auto" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editQuantity,
+                            expression: "editQuantity"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "modal_edit_cart_body_product_quantity",
+                          name: "modal_edit_cart_body_product_quantity",
+                          value: "1"
+                        },
+                        domProps: { value: _vm.editQuantity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.editQuantity = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "modal-footer d-flex justify-content-around" },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancel")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "submit", "data-dismiss": "modal" },
+                    on: { click: _vm.updateCart }
+                  },
+                  [_vm._v("Save")]
+                )
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
     _vm._v(" "),
-    _vm._m(7)
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "removeCart",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm._v("Are you sure to remove this item from your cart?")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "modal-footer d-flex justify-content-around" },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("No")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.deleteCart }
+                  },
+                  [_vm._v("Yes")]
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v("Edit\n    ")
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -21792,141 +22309,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "product-remove" }, [
-      _c(
-        "a",
-        {
-          staticClass: "mr-2",
-          attrs: {
-            href: "#",
-            "data-toggle": "modal",
-            "data-target": "#editCart",
-            onclick: "modal('item1')"
-          }
-        },
-        [_c("span", { staticClass: "ion-ios-create" }, [_vm._v("Edit")])]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          attrs: {
-            href: "#",
-            "data-toggle": "modal",
-            "data-target": "#removeCart"
-          }
-        },
-        [_c("span", { staticClass: "ion-ios-trash" }, [_vm._v("Remove")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-8 mt-5 cart-wrap ftco-animate" }, [
-      _c("div", { staticClass: "cart-total mb-3" }, [
-        _c("h3", [_vm._v("Destination")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "info d-flex", attrs: { action: "#" } }, [
-          _c("div", { staticClass: "col-lg-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "province" } }, [_vm._v("Province")]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control text-left px-3",
-                attrs: {
-                  type: "text",
-                  placeholder: "Jawa Timur",
-                  readonly: "",
-                  id: "province",
-                  name: "province"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "city" } }, [_vm._v("City")]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control text-left px-3",
-                attrs: {
-                  type: "text",
-                  placeholder: "Kab.Jember",
-                  readonly: "",
-                  id: "city",
-                  name: "city"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "sub_district" } }, [
-                _vm._v("Sub District")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control text-left px-3",
-                attrs: {
-                  type: "text",
-                  placeholder: "Sumbersari",
-                  readonly: "",
-                  id: "sub-district",
-                  name: "sub-district"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-lg-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "postal_code" } }, [
-                _vm._v("Postal Code")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control text-left px-3",
-                attrs: {
-                  type: "text",
-                  placeholder: "68121",
-                  readonly: "",
-                  id: "postal_code",
-                  name: "postal_code"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "postal_code" } }, [
-                _vm._v("Details Address")
-              ]),
-              _vm._v(" "),
-              _c("textarea", {
-                staticClass: "form-control text-left pl-3 pt-1",
-                attrs: {
-                  name: "details_address",
-                  id: "details_address",
-                  cols: "30",
-                  rows: "10",
-                  placeholder:
-                    "Kampus Tegalboto, Jl. Kalimantan No.37, Krajan Timur, Sumbersari",
-                  readonly: ""
-                }
-              })
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("p", { staticClass: "d-flex" }, [
       _c("span", [_vm._v("Delivery")]),
       _vm._v(" "),
-      _c("span", [_vm._v("Rp 36.000")])
+      _c("span", [_vm._v("Rp 0")])
     ])
   },
   function() {
@@ -21962,196 +22348,51 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "editCart",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h5",
-                {
-                  staticClass: "modal-title",
-                  attrs: { id: "modal_edit_cart_title" }
-                },
-                [_vm._v("Changes")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "close",
-                  attrs: {
-                    type: "button",
-                    "data-dismiss": "modal",
-                    "aria-label": "Close"
-                  }
-                },
-                [
-                  _c("span", { attrs: { "aria-hidden": "true" } }, [
-                    _vm._v("×")
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("form", { attrs: { action: "", id: "editCartItem" } }, [
-              _c(
-                "div",
-                {
-                  staticClass: "modal-body",
-                  attrs: { id: "modal_edit_cart_body" }
-                },
-                [
-                  _c("div", { staticClass: "container-fluid" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _vm._v("Product Name")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-md-4 ml-auto",
-                          attrs: { id: "modal_edit_cart_body_product_name" }
-                        },
-                        [_vm._v("Tomatos\n                                ")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _vm._v("Quantity")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4 ml-auto" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            id: "modal_edit_cart_body_product_quantity",
-                            name: "modal_edit_cart_body_product_quantity",
-                            value: "1"
-                          }
-                        })
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "modal-footer d-flex justify-content-around" },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary",
-                      attrs: { type: "button", "data-dismiss": "modal" }
-                    },
-                    [_vm._v("Cancel")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [_vm._v("Save")]
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "modal_edit_cart_title" } },
+        [_vm._v("Changes")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "removeCart",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h5",
-                {
-                  staticClass: "modal-title",
-                  attrs: { id: "exampleModalLabel" }
-                },
-                [_vm._v("Caution")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "close",
-                  attrs: {
-                    type: "button",
-                    "data-dismiss": "modal",
-                    "aria-label": "Close"
-                  }
-                },
-                [
-                  _c("span", { attrs: { "aria-hidden": "true" } }, [
-                    _vm._v("×")
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _vm._v("Are you sure to remove this item from your cart?")
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "modal-footer d-flex justify-content-around" },
-              [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("No")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                  [_vm._v("Yes")]
-                )
-              ]
-            )
-          ])
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Caution")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -34785,10 +35026,13 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   data: {
     totalCart: 0,
+    isGuest: window.guest,
     cart: []
   },
   mounted: function mounted() {
-    this.loadCart();
+    if (!this.isGuest) {
+      this.loadCart();
+    }
   },
   methods: {
     loadCart: function loadCart() {
@@ -34799,6 +35043,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
           _this.totalCart = result.data.data.length;
           _this.cart = result.data.data;
         } else {
+          console.log(result.data);
           toastr.error("Unable to load your cart");
         }
       })["catch"](function (err) {

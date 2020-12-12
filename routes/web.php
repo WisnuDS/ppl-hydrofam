@@ -85,11 +85,14 @@ Route::resource('/shop','App\Http\Controllers\ShopController')->only(['index','s
 //Api Route
 Route::group(["prefix"=>"api"], function (){
     Route::get('/product/{id}',[\App\Http\Controllers\ShopController::class,'getSingleProduct']);
-    Route::group(["middleware" => "role:user"],function (){
+    Route::group(["middleware" => ["role:user"]],function (){
         Route::group(["prefix"=>"cart"],function (){
             Route::post('add',[\App\Http\Controllers\ShopController::class,'addToCart']);
+            Route::post('update/{id}',[\App\Http\Controllers\CartController::class,'updateCart']);
+            Route::delete('delete/{id}',[\App\Http\Controllers\CartController::class,'deleteCart']);
             Route::get('all',[\App\Http\Controllers\ShopController::class,'getAllCart']);
         });
+        Route::get('/address',[\App\Http\Controllers\CartController::class,'address']);
     });
 });
 

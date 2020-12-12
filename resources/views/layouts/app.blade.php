@@ -173,6 +173,7 @@
 </div>
 <!-- loader -->
 <script>window.token = "{{csrf_token()}}";</script>
+<script>window.guest = "{{auth()->guest()}}";</script>
 <script src="{{mix('js/app.js')}}"></script>
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
         <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />

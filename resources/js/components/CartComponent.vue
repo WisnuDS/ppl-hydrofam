@@ -18,16 +18,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="datum in cart">
+                                    <template v-for="(datum,index) in cart">
                                         <tr class="text-center" id="item1">
                                             <td class="product-remove">
-                                                <a href="#" data-toggle="modal" data-target="#editCart" class="mr-2"
-                                                   onclick="modal('item1')">
-                                                    <span class="ion-ios-create">Edit</span>
-                                                </a>
-                                                <a href="#" data-toggle="modal" data-target="#removeCart">
-                                                    <span class="ion-ios-trash">Remove</span>
-                                                </a>
+                                                <template v-if="datum.item.unit > 0">
+                                                    <a href="#" data-toggle="modal" data-target="#editCart" class="mr-2"
+                                                       onclick="modal('item1')" @click="openModal(datum.quantity,index,datum.item.item_name,datum.id)">
+                                                        <span class="ion-ios-create">Edit</span>
+                                                    </a>
+                                                    <a href="#" data-toggle="modal" data-target="#removeCart" @click="openModal(datum.quantity,index,datum.item.item_name,datum.id)">
+                                                        <span class="ion-ios-trash">Remove</span>
+                                                    </a>
+                                                </template>
+                                                <template v-else>
+                                                    Out of Stock
+                                                    <a href="#" data-toggle="modal" data-target="#removeCart" @click="openModal(datum.quantity,index,datum.item.item_name,datum.id)">
+                                                        <span class="ion-ios-trash">Remove</span>
+                                                    </a>
+                                                </template>
                                             </td>
 
                                             <td class="image-prod">
@@ -69,31 +77,31 @@
                                     <div class="form-group">
                                         <label for="province">Province</label>
                                         <input type="text" class="form-control text-left px-3" placeholder="Jawa Timur"
-                                               readonly id="province" name="province">
+                                               readonly id="province" name="province" v-model="address.province">
                                     </div>
                                     <div class="form-group">
                                         <label for="city">City</label>
                                         <input type="text" class="form-control text-left px-3" placeholder="Kab.Jember"
-                                               readonly id="city" name="city">
+                                               readonly id="city" name="city" v-model="address.city">
                                     </div>
                                     <div class="form-group">
                                         <label for="sub_district">Sub District</label>
                                         <input type="text" class="form-control text-left px-3" placeholder="Sumbersari"
-                                               readonly id="sub-district" name="sub-district">
+                                               readonly id="sub-district" name="sub-district" v-model="address.sub_district">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="postal_code">Postal Code</label>
                                         <input type="text" class="form-control text-left px-3" placeholder="68121" readonly
-                                               id="postal_code" name="postal_code">
+                                               id="postal_code" name="postal_code" v-model="address.postal_code">
                                     </div>
                                     <div class="form-group">
                                         <label for="postal_code">Details Address</label>
                                         <textarea name="details_address" id="details_address" cols="30" rows="10"
                                                   class="form-control text-left pl-3 pt-1"
                                                   placeholder="Kampus Tegalboto, Jl. Kalimantan No.37, Krajan Timur, Sumbersari"
-                                                  readonly></textarea>
+                                                  readonly>{{address.detail}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +119,7 @@
                             </p>
                             <p class="d-flex">
                                 <span>Delivery</span>
-                                <span>Rp 36.000</span>
+                                <span>Rp 0</span>
                             </p>
                             <p class="d-flex">
                                 <span>Discount</span>
@@ -132,7 +140,7 @@
             </div>
         </section>
         <!-- MODAL EDIT CONFIRM -->
-        <div class="modal fade" id="editCart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editCart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref="modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -141,28 +149,26 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="" id="editCartItem">
-                        <div class="modal-body" id="modal_edit_cart_body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-4">Product Name</div>
-                                    <div class="col-md-4 ml-auto" id="modal_edit_cart_body_product_name">Tomatos
-                                    </div>
+                    <div class="modal-body" id="modal_edit_cart_body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4">Product Name</div>
+                                <div class="col-md-4 ml-auto" id="modal_edit_cart_body_product_name">{{productName}}
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">Quantity</div>
-                                    <div class="col-md-4 ml-auto">
-                                        <input type="text" id="modal_edit_cart_body_product_quantity"
-                                               name="modal_edit_cart_body_product_quantity" class="form-control" value="1">
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">Quantity</div>
+                                <div class="col-md-4 ml-auto">
+                                    <input type="text" v-model="editQuantity" id="modal_edit_cart_body_product_quantity"
+                                           name="modal_edit_cart_body_product_quantity" class="form-control" value="1">
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-around">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-around">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal" @click="updateCart">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -181,19 +187,32 @@
                     <div class="modal-body">Are you sure to remove this item from your cart?</div>
                     <div class="modal-footer d-flex justify-content-around">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="button" class="btn btn-primary">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="deleteCart">Yes</button>
                     </div>
                 </div>
-            </div>
+            </div>Edit
         </div>
         <!-- END MODAL LOGOUT CONFIRM -->
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: "CartComponent",
         props:['cart'],
+        data(){
+            return{
+                address:{},
+                editQuantity:0,
+                indexEdit:0,
+                productName:'',
+                idProduct:0,
+            }
+        },
+        mounted() {
+            this.loadAddress()
+        },
         computed:{
             total(){
                 let total = 0;
@@ -201,6 +220,57 @@
                     total += (item.quantity*item.item.price)
                 }
                 return total
+            }
+        },
+        methods:{
+            loadAddress(){
+                axios.get('/api/address').then(result => {
+                    if (result.data.status === 200){
+                        this.address = result.data.data
+                    }else {
+                        toastr.error("Failed to load address")
+                    }
+                }).catch(err => {
+                    toastr.error("Failed to load address")
+                })
+            },
+            openModal(quantity,index,productName,id){
+                this.editQuantity = quantity
+                this.indexEdit = index
+                this.productName = productName
+                this.idProduct = id
+            },
+            updateCart(){
+                axios.post('/api/cart/update/'+this.idProduct,{
+                    quantity:this.editQuantity,
+                    _token: window.token
+                }).then(result => {
+                    if (result.data.status === 200){
+                        toastr.success(result.data.message)
+                        this.$parent.loadCart();
+
+                    }else {
+                        toastr.error(result.data.message)
+                    }
+                }).catch(err => {
+                    toastr.error("Failed Update Cart")
+                })
+            },
+            deleteCart(){
+                axios.delete('/api/cart/delete/'+this.idProduct,{
+                    quantity:this.editQuantity,
+                    _token: window.token
+                }).then(result => {
+                    if (result.data.status === 200){
+                        toastr.success(result.data.message)
+                        this.$parent.loadCart();
+
+                    }else {
+                        toastr.error(result.data.message)
+                    }
+                }).catch(err => {
+                    toastr.error("Failed Delete Cart")
+                })
             }
         }
     }

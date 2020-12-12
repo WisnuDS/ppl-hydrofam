@@ -15,10 +15,13 @@ new Vue({
     },
     data:{
         totalCart : 0,
+        isGuest: window.guest,
         cart:[]
     },
     mounted(){
-        this.loadCart()
+        if (!this.isGuest){
+            this.loadCart()
+        }
     },
     methods:{
         loadCart(){
@@ -27,6 +30,7 @@ new Vue({
                     this.totalCart = result.data.data.length
                     this.cart = result.data.data
                 }else {
+                    console.log(result.data)
                     toastr.error("Unable to load your cart")
                 }
             }).catch(err => {

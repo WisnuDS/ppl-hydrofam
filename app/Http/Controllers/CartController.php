@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Item;
+use App\ItemSelected;
+use App\Lib\ResponseBase;
+use App\Transaction;
 use Illuminate\Http\Request;
+use PHPUnit\Util\Xml\Validator;
 
 class CartController extends Controller
 {
@@ -82,4 +87,56 @@ class CartController extends Controller
         //
     }
 
+    public function address()
+    {
+        $address = [
+            "province" => auth()->user()->province,
+            "city" => auth()->user()->city,
+            "detail" => auth()->user()->detail,
+            "postal_code" => auth()->user()->postal_code,
+            "sub_district" => auth()->user()->sub_district
+        ];
+        return response()->json(ResponseBase::successResponse("Success load address",["data" => $address]));
+    }
+
+    public function updateCart(Request $request, $id)
+    {
+        $validation = \Illuminate\Support\Facades\Validator::make($request->all(),[
+            "quantity" => ["required","integer"]
+        ]);
+
+        if ($validation->fails()){
+            return response()->json(ResponseBase::failedResponse(422,"Request data invalid"));
+        }
+
+        $selected = ItemSelected::find($id);
+        $item = Item::find($selected->item_id);
+
+        if (!$item->exists()){
+            return ResponseBase::failedResponse(404, "Data Not Found");
+        }
+
+        if (($item->unit+$selected->quantity)-$request->quantity < 0){
+            return ResponseBase::failedResponse(400, "The item is out of stock");
+        }
+
+        $item->unit = ($item->unit+$selected->quantity)-$request->quantity;
+        $item->save();
+        $selected->quantity = $request->quantity;
+        $selected->save();
+
+        return response()->json(ResponseBase::successResponse("Success update"));
+    }
+
+    public function deleteCart($id)
+    {
+        $selected = ItemSelected::find($id);
+
+        if (!$selected->exists()){
+            return ResponseBase::failedResponse(404, "Data Not Found");
+        }
+
+        $selected->delete();
+        return response()->json(ResponseBase::successResponse("Success Delete Data"));
+    }
 }

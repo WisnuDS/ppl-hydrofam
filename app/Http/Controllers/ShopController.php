@@ -184,18 +184,22 @@ class ShopController extends Controller
             "status" => 1
         ]);
 
-        $item = Item::find($request->item_id);
-        $item->unit-= $request->quantity;
-        $item->save();
+//        $item = Item::find($request->item_id);
+//        $item->unit-= $request->quantity;
+//        $item->save();
         return response()->json(ResponseBase::successResponse("Success Add to chart"));
     }
 
     public function getAllCart()
     {
-        $itemSelected = ItemSelected::with(['item'])
-            ->where('status',1)
-            ->where('user_id',auth()->id())
-            ->get();
-        return response()->json(ResponseBase::successResponse("Success get All Data Cart",["data"=>$itemSelected]));
+        if (!auth()->guest()){
+            $itemSelected = ItemSelected::with(['item'])
+                ->where('status',1)
+                ->where('user_id',auth()->id())
+                ->get();
+            return response()->json(ResponseBase::successResponse("Success get All Data Cart",["data"=>$itemSelected]));
+        }else{
+            return response()->json(ResponseBase::successResponse(""));
+        }
     }
 }

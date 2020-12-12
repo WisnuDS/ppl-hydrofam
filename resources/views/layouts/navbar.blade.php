@@ -10,8 +10,13 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="{{url('/blog')}}" class="nav-link">Blog</a></li>
+<<<<<<< HEAD
+                <li class="nav-item"><a href="{{url('/shop')}}" class="nav-link">Shop</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">About</a></li>
+=======
                 <li class="nav-item"><a href="{{url('/products')}}" class="nav-link">Products</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+>>>>>>> a6ce60989fa73572f2fe4ac47343eb486d96a0de
                 @if(\Illuminate\Support\Facades\Auth::guest())
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="cbAccount" role="button" data-toggle="dropdown"
@@ -50,8 +55,8 @@
                             </a>
                         </div>
                     </li>
-                <li class="nav-item cta cta-colored"><a href="{{url('users/cart')}}" class="nav-link"><span
-                            class="icon-shopping_cart"></span>[0]</a></li>
+                <li class="nav-item cta cta-colored"><a href="{{url('user/cart')}}" class="nav-link"><span
+                            class="icon-shopping_cart"></span>[@{{ totalCart }}]</a></li>
                 <!-- END Ditamplikan saat user sudah login -->
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf

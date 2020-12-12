@@ -58,7 +58,7 @@
                             <div class="w-100"></div>
                             <div class="col-md-12">
                                 <div class="cart-detail p-3 p-md-4 d-flex justify-content-around">
-                                    <a href="{{back()}}" class="btn btn-outline-danger py-3 px-4">Cancel</a>
+                                    <a href="{{url()->previous()}}" class="btn btn-outline-danger py-3 px-4">Cancel</a>
                                     <button class="btn btn-outline-primary py-3 px-4"
                                             type="submit">Save</button>
                                 </div>

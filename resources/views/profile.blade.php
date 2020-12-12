@@ -249,10 +249,12 @@
 
         });
 
-        function closeModal() {
-            $('#myModal').hide();
-            $('#myselect').val({{$user->roles[0]->name == 'admin'? 2: 3}})
-        }
+        @if(auth()->user()->isA('super'))
+            function closeModal() {
+                $('#myModal').hide();
+                $('#myselect').val({{$user->roles[0]->name == 'admin'? 2: 3}})
+            }
+        @endif
 
     </script>
 @endpush

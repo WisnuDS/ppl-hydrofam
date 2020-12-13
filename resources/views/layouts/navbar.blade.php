@@ -44,6 +44,7 @@
                             @elseif(auth()->user()->isA('super'))
                                     <a class="dropdown-item" href="{{url('super/transaction')}}">Transaction Data</a>
                                     <a class="dropdown-item" href="{{route('super.user-management.index')}}">User Management</a>
+                                    <a class="dropdown-item" href="{{url('super/message')}}">Message</a>
                             @endif
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                data-toggle="modal" data-target="#logoutModal">

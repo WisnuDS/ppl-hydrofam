@@ -118,4 +118,5 @@ Route::view('super/transaction','transaction');
 Route::view('admin/transaction/id-transaction','transaction_details');
 Route::view('super/transaction/id-transaction','transaction_details');
 Route::view('admin/message','message');
+Route::view('super/message','message');
 // END FRONTEND VIEW ROUTE

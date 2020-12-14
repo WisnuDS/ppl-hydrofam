@@ -3,7 +3,7 @@ import axios from 'axios';
 import CommentComponent from "./views/CommentComponent";
 import ProductComponent from "./components/ProductComponent";
 
-require('bootstrap');
+// require('bootstrap');
 
 Vue.component('product', require('./components/ProductComponent.vue').default);
 Vue.component('cart', require('./components/CartComponent.vue').default);

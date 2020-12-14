@@ -10,13 +10,8 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="{{url('/blog')}}" class="nav-link">Blog</a></li>
-<<<<<<< HEAD
-                <li class="nav-item"><a href="{{url('/shop')}}" class="nav-link">Shop</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">About</a></li>
-=======
                 <li class="nav-item"><a href="{{url('/products')}}" class="nav-link">Products</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
->>>>>>> a6ce60989fa73572f2fe4ac47343eb486d96a0de
                 @if(\Illuminate\Support\Facades\Auth::guest())
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="cbAccount" role="button" data-toggle="dropdown"
@@ -45,9 +40,11 @@
                             @elseif(auth()->user()->isA('admin'))
                                 <a class="dropdown-item" href="{{route('admin.profile.index')}}">My Profile</a>
                                 <a class="dropdown-item" href="{{url('admin/transaction')}}">Transaction Data</a>
+                                <a class="dropdown-item" href="{{url('admin/message')}}">Message</a>
                             @elseif(auth()->user()->isA('super'))
                                     <a class="dropdown-item" href="{{url('super/transaction')}}">Transaction Data</a>
                                     <a class="dropdown-item" href="{{route('super.user-management.index')}}">User Management</a>
+                                    <a class="dropdown-item" href="{{url('super/message')}}">Message</a>
                             @endif
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                data-toggle="modal" data-target="#logoutModal">

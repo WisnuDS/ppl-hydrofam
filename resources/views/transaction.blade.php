@@ -31,67 +31,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
-                                    <td>Rp 580.000</td>
-                                    <td class="table-warning">Waiting to be verified</td>
-                                    @if(auth()->user()->isA('admin'))
-                                    <td><a href="{{url('admin/transaction/id-transaction')}}" class="btn btn-outline-primary"><span
-                                                class='fa fa-info-circle'></span></a>
-                                    </td>
-                                    @else
-                                    <td><a href="{{url('super/transaction/id-transaction')}}" class="btn btn-outline-primary"><span
-                                                class='fa fa-info-circle'></span></a>
-                                    </td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Garrett Winters</td>
-                                    <td>Tokyo</td>
-                                    <td>2011/07/25</td>
-                                    <td>Rp 180900</td>
-                                    <td class="table-danger">Aborted</td>
-                                    <td><a href="" class="btn btn-outline-primary"><span
-                                                class='fa fa-info-circle'></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Ashton Cox</td>
-                                    <td>San Francisco</td>
-                                    <td>2009/01/12</td>
-                                    <td>Rp 134.000</td>
-                                    <td class="table-success">Done</td>
-                                    <td><a href="" class="btn btn-outline-primary"><span
-                                                class='fa fa-info-circle'></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Cedric Kelly</td>
-                                    <td>Edinburgh</td>
-                                    <td>2012/03/29</td>
-                                    <td>Rp 308.000</td>
-                                    <td class="table-info">Waiting for payment</td>
-                                    <td><a href="" class="btn btn-outline-primary"><span
-                                                class='fa fa-info-circle'></span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Cedric Kelly</td>
-                                    <td>Edinburgh</td>
-                                    <td>2012/03/29</td>
-                                    <td>Rp 298.000</td>
-                                    <td class="bg-warning">in delivery</td>
-                                    <td><a href="" class="btn btn-outline-primary"><span
-                                                class='fa fa-info-circle'></span></a>
-                                    </td>
-                                </tr>
+                                @foreach($transactions as $transaction)
+                                    <tr>
+                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$transaction->user->name}}</td>
+                                        <td>{{$transaction->user->city}}</td>
+                                        <td>{{$transaction->created_at}}</td>
+                                        <td>Rp {{$transaction->total}}</td>
+                                        @if($transaction->status == 1)
+                                            <td class="table-warning">Waiting for payment</td>
+                                        @elseif($transaction->status == 2)
+                                            <td class="table-warning">Waiting for verification</td>
+                                        @elseif($transaction->status == 3)
+                                            <td class="table-warning">Process</td>
+                                        @elseif($transaction->status == 4)
+                                            <td class="table-warning">On the way</td>
+                                        @elseif($transaction->status == 5)
+                                            <td class="table-warning">Done</td>
+                                        @endif
+                                        @if(auth()->user()->isA('admin'))
+                                        <td><a href="{{url('admin/transaction/'.$transaction->id)}}" class="btn btn-outline-primary"><span
+                                                    class='fa fa-info-circle'></span></a>
+                                        </td>
+                                        @else
+                                        <td><a href="{{url('super/transaction/'.$transaction->id)}}" class="btn btn-outline-primary"><span
+                                                    class='fa fa-info-circle'></span></a>
+                                        </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

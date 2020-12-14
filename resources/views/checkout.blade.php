@@ -22,15 +22,25 @@
 								<label for="name">Invoice</label>
 							</div>
 							<div class="col-md-6">
-								<span>202030100720DDD</span>
+								<span>{{$transaction->invoice}}</span>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-6">
 								<label for="birth_date">Status</label>
 							</div>
-							<div class="col-md-6">
-								<span>Waiting for payment</span>
-							</div>
+                            @if($transaction->status === 1)
+                                <div class="col-md-6">
+                                    <span>Waiting for payment</span>
+                                </div>
+                            @elseif($transaction->status === 2)
+                                <div class="col-md-6">
+                                    <span>Payment is successful, your order is being sent</span>
+                                </div>
+                            @else
+                                <div class="col-md-6">
+                                    <span>Payment Failed</span>
+                                </div>
+                            @endif
 							<div class="w-100"></div>
 						</div>
 					</div>
@@ -53,26 +63,18 @@
 									<span class="font-weight-bold">Price</span>
 								</label>
 							</div>
-							<div class="w-100"></div>
-							<div class="col-md-4">
-								<label for="product_name">Bell Pepper</label>
-							</div>
-							<div class="col-md-4">
-								<span>1000 <span>grams</span> </span>
-							</div>
-							<div class="col-md-4">
-								<span>Rp 65.000</span>
-							</div>
-							<div class="w-100"></div>
-							<div class="col-md-4">
-								<label for="product_name">Bell Pepper 2</label>
-							</div>
-							<div class="col-md-4">
-                                <span>1000 <span>grams</span> </span>
-							</div>
-							<div class="col-md-4">
-								<span>Rp 55.000</span>
-							</div>
+                            @foreach($carts as $cart)
+                                <div class="w-100"></div>
+                                <div class="col-md-4">
+                                    <label for="product_name">{{$cart->item->item_name}}</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <span>{{$cart->quantity}} <span>Unit</span> </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span>Rp {{$cart->quantity*$cart->item->price}}</span>
+                                </div>
+                            @endforeach
 						</div>
 					</div>
 					<hr>
@@ -83,29 +85,29 @@
 								<label for="reciever">Reciever</label>
 							</div>
 							<div class="col-md-6">
-								<span>Iqbal Al</span>
+								<span>{{auth()->user()->name}}</span>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-6">
 								<label for="phone">Phone</label>
 							</div>
 							<div class="col-md-6">
-								<span>081234567890</span>
+								<span>{{auth()->user()->phone_number}}</span>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-6">
 								<label for="address">Destination</label>
 							</div>
 							<div class="col-md-6">
-								<span>Kampus Tegalboto, Jl. Kalimantan No.37, Krajan Timur, Sumbersari.</span>
+								<span>{{auth()->user()->detail}}</span>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-6 offset-md-6">
-								<span>Sumbersari 68121, Kab.Jember</span>
+								<span>{{auth()->user()->sub_district.' '.auth()->user()->postal_code.', '.auth()->user()->city }}</span>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-6 offset-md-6">
-								<span>Jawa Timur</span>
+								<span>{{auth()->user()->province}}</span>
 							</div>
 						</div>
 					</div><!-- END -->
@@ -120,16 +122,16 @@
 								<h3 class="billing-heading mb-4">Cart Total</h3>
 								<p class="d-flex">
 									<span>Subtotal</span>
-									<span>Rp 120.000</span>
+									<span>Rp {{$total}}</span>
 								</p>
 								<p class="d-flex">
 									<span>Delivery</span>
-									<span>Rp 36.000</span>
+									<span>Rp 15000</span>
 								</p>
 								<hr>
 								<p class="d-flex total-price">
 									<span>Total</span>
-									<span>Rp 156.000</span>
+									<span>Rp {{$total+15000}}</span>
 								</p>
 							</div>
 						</div>
@@ -152,23 +154,27 @@
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="cart-detail p-3 p-md-4">
-								<h3 class="billing-heading mb-4">Upload Payment Proof</h3>
-								<div class="form-group">
-									<div class="col-md-12">
-										<input type="file">
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="checkbox">
-											<label><input type="checkbox" value="" class="mr-2"> I have read and accept
-												the terms and conditions</label>
-										</div>
-									</div>
-								</div>
-								<p><a href="#" class="btn btn-primary py-3 px-4">Upload</a></p>
-							</div>
+                            <form action="{{url('/user/upload/proof')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$id}}" >
+                                <div class="cart-detail p-3 p-md-4">
+                                    <h3 class="billing-heading mb-4">Upload Payment Proof</h3>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="file" name="proof">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" class="mr-2" name="agree"> I have read and accept
+                                                    the terms and conditions</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><input type="submit" class="btn btn-primary py-3 px-4" value="Upload"></p>
+                                </div>
+                            </form>
 						</div>
 					</div>
 				</div> <!-- .col-md-8 -->

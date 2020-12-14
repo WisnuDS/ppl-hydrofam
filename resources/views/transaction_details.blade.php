@@ -18,35 +18,44 @@
                             <p>Transfer Reciept</p>
                         </div>
                     </div>
-                    <a href="{{asset('img/example_transfer.jpg')}}" class="image-popup"><img src="{{asset('img/example_transfer.jpg')}}"
-                            class="img-fluid" alt="Colorlib Template"></a>
+                    <a href="{{'/storage/proof/'.$transaction->image}}" class="image-popup"><img src="{{'/storage/proof/'.$transaction->image}}"
+                            class="img-fluid" alt="Transaction proof"></a>
                 </div>
                 <div class="col-md-8 product-details pl-md-5 ftco-animate">
                     <div class="col-lg-12 cart-wrap ftco-animate">
                         <div class="row mt-4">
                             <div class="col-md-12 pt-3 text-center" style="color: #ffffff;background-color: #82AE46;">
-                                <p>Waiting to be verified</p>
+                                @if($transaction->status == 1)
+                                    <p>Waiting for payment</p>
+                                @elseif($transaction->status == 2)
+                                    <p>Waiting for verification</p>
+                                @elseif($transaction->status == 3)
+                                    <p>Process</p>
+                                @elseif($transaction->status == 4)
+                                    <p>On the way</p>
+                                @elseif($transaction->status == 5)
+                                    <p>Done</p>
+                                @endif
                             </div>
                         </div>
                         <div class="cart-total mb-2">
                             <p class="d-flex">
                                 <span>Invoice</span>
-                                <span>202030100720DDD</span>
+                                <span>{{$transaction->incoice}}</span>
                             </p>
                             <hr>
                             <h3>Consumer Details</h3>
                             <p class="d-flex">
                                 <span>Consumer</span>
-                                <span>Tiger Nixon</span>
+                                <span>{{$transaction->user->name}}</span>
                             </p>
                             <p class="d-flex">
                                 <span>Phone</span>
-                                <span>081211111111</span>
+                                <span>{{$transaction->user->phone_number}}</span>
                             </p>
                             <p class="d-flex">
                                 <span>Address</span>
-                                <span>Kampus Tegalboto, Jl. Kalimantan No.37, Krajan Timur, Sumbersari, Kec. Sumbersari,
-                                    Kabupaten Jember, Jawa Timur 68121</span>
+                                <span>{{$transaction->user->detail}}</span>
                             </p>
                             <hr>
                             <h3>Transaction Details</h3>
@@ -56,18 +65,20 @@
                             </p>
                             <p class="d-flex">
                                 <span>
-                                    <span>Bell Pepper</span>
-                                    <span>Tomato</span>
+                                    @foreach($transaction->itemsSelecteds as $select)
+                                        <span>{{$select->item->item_name}}</span>
+                                    @endforeach
                                 </span>
                                 <span>
-                                    <span>10 Kg</span>
-                                    <span>10 Kg</span>
+                                    @foreach($transaction->itemsSelecteds as $select)
+                                        <span>{{$select->quantity}} Unit</span>
+                                    @endforeach
                                 </span>
                             </p>
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Total Payment</span>
-                                <span>Rp 156.000</span>
+                                <span>Rp {{$transaction->total}}</span>
                             </p>
                         </div>
                         <p class="d-flex justify-content-end">
@@ -109,7 +120,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary">Yes</button>
+                    <form action="{{url(auth()->user()->roles[0]->name.'/transaction/'.$transaction->id.'/confirm')}}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </form>
                 </div>
             </div>
         </div>

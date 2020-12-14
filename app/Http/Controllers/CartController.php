@@ -7,6 +7,9 @@ use App\ItemSelected;
 use App\Lib\ResponseBase;
 use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Mockery\Exception;
 use PHPUnit\Util\Xml\Validator;
 
 class CartController extends Controller
@@ -138,5 +141,125 @@ class CartController extends Controller
 
         $selected->delete();
         return response()->json(ResponseBase::successResponse("Success Delete Data"));
+    }
+
+    public function checkout()
+    {
+        try {
+            DB::beginTransaction();
+            //check if user has incomplete transaction
+            $transaction = Transaction::where('user_id', auth()->id())
+                ->where('status',1)
+                ->get();
+            if (sizeof($transaction) > 0){
+                DB::rollBack();
+                return response()->json(ResponseBase::failedResponse(400,"You haven't completed the previous transaction"));
+            }
+            //create new transaction
+            $newTransaction = Transaction::create([
+                "invoice" => uniqid("INV"),
+                "order_note" => null,
+                "status" => 1,
+                "user_id" => auth()->id(),
+                "image" => null,
+                "paid_at" => null,
+                "total" => 0
+            ]);
+
+            //load all cart user
+            $carts = ItemSelected::with('item')
+                ->where('user_id', auth()->id())
+                ->where('status',1)
+                ->get();
+
+            $total = 0;
+            //update data cart
+            foreach ($carts as $cart){
+                $cart->transaction_id = $newTransaction->id;
+                $cart->status = 2;
+                $cart->save();
+                $item = Item::find($cart->item_id);
+                if ($item->unit - $cart->quantity < 0){
+                    DB::rollBack();
+                    return response()->json(ResponseBase::failedResponse(400,"Out of stock"));
+                }
+                $total += $cart->quantity*$cart->item->price;
+                $item->unit = $item->unit - $cart->quantity;
+                $item->save();
+            }
+
+            $newTransaction->total =
+
+            //commit transaction if success
+            DB::commit();
+
+            //return response
+            return response()->json(ResponseBase::successResponse("Success Checkout",["data" => $newTransaction]));
+        }catch (\Exception $exception){
+
+            //roleback transaction if error happen
+            DB::rollBack();
+
+            //return error response
+            return response()->json(ResponseBase::failedResponse(500,"Something went wrong",["data" => $exception]));
+        }
+    }
+
+    public function detailCheckout($id)
+    {
+        $transaction = Transaction::find($id);
+
+        if (empty($transaction)){
+            abort(404);
+        }
+
+        $selected = ItemSelected::with('item')->where('transaction_id',$id)->get();
+
+        $total = 0;
+
+        foreach ($selected as $select){
+            $total+=$select->quantity*$select->item->price;
+        }
+
+        return view('checkout')->with([
+            "transaction" => $transaction,
+            "carts" => $selected,
+            "total" => $total,
+            "id" => $id
+        ]);
+    }
+
+    public function updateImageTransaction(Request $request)
+    {
+        //validation
+        $validation = \Illuminate\Support\Facades\Validator::make($request->all(),[
+            "proof" => ["required","image"],
+            "id" => ["required","integer","exists:transactions,id"],
+            "agree" => ["required"]
+        ]);
+
+        //check validation
+        if ($validation->fails()){
+            return redirect()->back()->withErrors($validation->errors());
+        }
+
+        //check if file exists
+        if (!$request->hasFile('proof')){
+            return redirect()->back()->withErrors("You must upload transfer proof");
+        }
+
+        //save proof image
+        $name = uniqid('proof_'.auth()->id().'_');
+        $filename = $name.'.'.$request->file('proof')->clientExtension();
+        $request->file('proof')->storeAs('/public/proof',$filename);
+
+        //find and update payment
+        $transaction = Transaction::find($request->id);
+        $transaction->image = $filename;
+        $transaction->save();
+
+        //redirect with success
+        toastSuccess("Your upload success, please wait for verification");
+        return redirect('/shop');
     }
 }

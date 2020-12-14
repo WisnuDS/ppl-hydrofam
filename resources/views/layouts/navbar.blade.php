@@ -10,7 +10,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="{{url('/blog')}}" class="nav-link">Blog</a></li>
-                <li class="nav-item"><a href="{{url('/products')}}" class="nav-link">Products</a></li>
+                <li class="nav-item"><a href="{{url('/shop')}}" class="nav-link">Products</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
                 @if(\Illuminate\Support\Facades\Auth::guest())
                 <li class="nav-item dropdown">
@@ -52,8 +52,10 @@
                             </a>
                         </div>
                     </li>
-                <li class="nav-item cta cta-colored"><a href="{{url('user/cart')}}" class="nav-link"><span
+                    @if(auth()->user()->isA('user'))
+                        <li class="nav-item cta cta-colored"><a href="{{url('user/cart')}}" class="nav-link"><span
                             class="icon-shopping_cart"></span>[@{{ totalCart }}]</a></li>
+                    @endif
                 <!-- END Ditamplikan saat user sudah login -->
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf

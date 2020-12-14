@@ -31,6 +31,9 @@ Route::group(['middleware' => 'role:super', 'prefix' => 'super', 'as' => 'super.
     Route::post('/update-blog/{id}','\App\Http\Controllers\User\BlogController@updateBlog');
     Route::post('/create-new-blog','\App\Http\Controllers\User\BlogController@createNewBlog');
     Route::resource('/shop','App\Http\Controllers\ShopController')->except('index','show');
+    Route::get('transaction','App\Http\Controllers\TransactionController@index');
+    Route::get('transaction/{id}','App\Http\Controllers\TransactionController@show');
+    Route::post('transaction/{id}/confirm','App\Http\Controllers\TransactionController@confirm');
 });
 
 //route admin
@@ -42,6 +45,9 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.
     Route::post('/update-blog/{id}','\App\Http\Controllers\User\BlogController@updateBlog');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
     Route::resource('/shop','App\Http\Controllers\ShopController')->except('index','show');
+    Route::get('transaction','App\Http\Controllers\TransactionController@index');
+    Route::get('transaction/{id}','App\Http\Controllers\TransactionController@show');
+    Route::post('transaction/{id}/confirm','App\Http\Controllers\TransactionController@confirm');
 });
 
 //route user
@@ -51,6 +57,7 @@ Route::group(['middleware' => ['role:user','activity'], 'prefix' => 'user', 'as'
     Route::resource('/cart', 'App\Http\Controllers\CartController')->only(['index']);
     Route::post('/checkout','App\Http\Controllers\CartController@checkout');
     Route::get('/history/checkout/{id}',[App\Http\Controllers\CartController::class,'detailCheckout']);
+    Route::post('/upload/proof',[\App\Http\Controllers\CartController::class,'updateImageTransaction']);
 });
 
 //Canvas API Route
@@ -106,16 +113,16 @@ Route::group(["prefix"=>"api"], function (){
 //});
 
 // FRONTEND VIEW ROUTE
-Route::view('/products','products');
-Route::view('/products/id-product','products_details');
-Route::view('admin/products/new','field_product');
-Route::view('super/products/new','field_product');
-Route::view('admin/products/id-product/edit','field_product');
-Route::view('super/products/id-product/edit','field_product');
-Route::view('users/cart','cart');
-Route::view('users/checkout','checkout');
-Route::view('admin/transaction','transaction');
-Route::view('super/transaction','transaction');
-Route::view('admin/transaction/id-transaction','transaction_details');
-Route::view('super/transaction/id-transaction','transaction_details');
+//Route::view('/products','products');
+//Route::view('/products/id-product','products_details');
+//Route::view('admin/products/new','field_product');
+//Route::view('super/products/new','field_product');
+//Route::view('admin/products/id-product/edit','field_product');
+//Route::view('super/products/id-product/edit','field_product');
+//Route::view('users/cart','cart');
+//Route::view('users/checkout','checkout');
+//Route::view('admin/transaction','transaction');
+//Route::view('super/transaction','transaction');
+//Route::view('admin/transaction/id-transaction','transaction_details');
+//Route::view('super/transaction/id-transaction','transaction_details');
 // END FRONTEND VIEW ROUTE

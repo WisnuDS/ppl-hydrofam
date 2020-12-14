@@ -279,6 +279,7 @@
                     if (result.data.status === 200){
                         window.location = '/user/history/checkout/'+result.data.data.id
                     }else {
+                        this.$parent.loadCart();
                         toastr.error(result.data.message)
                     }
                 }).catch(err => {

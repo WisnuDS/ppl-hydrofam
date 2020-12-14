@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $deleted_at
  * @property string $image
  * @property string $invoice
+ * @property integer $total
  * @property User $user
  * @property ItemsSelected[] $itemsSelecteds
  */
@@ -22,7 +23,7 @@ class Transaction extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -30,14 +31,14 @@ class Transaction extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'order_note', 'status', 'paid_at', 'created_at', 'updated_at', 'deleted_at', 'image', 'invoice'];
+    protected $fillable = ['user_id', 'order_note', 'status', 'paid_at', 'created_at', 'updated_at', 'deleted_at', 'image', 'invoice', 'total'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     /**
@@ -45,6 +46,6 @@ class Transaction extends Model
      */
     public function itemsSelecteds()
     {
-        return $this->hasMany('App\ItemsSelected');
+        return $this->hasMany('App\ItemSelected');
     }
 }

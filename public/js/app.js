@@ -2220,12 +2220,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
     },
     checkout: function checkout() {
+      var _this4 = this;
+
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/user/checkout', {
         _token: window.token
       }).then(function (result) {
         if (result.data.status === 200) {
           window.location = '/user/history/checkout/' + result.data.data.id;
         } else {
+          _this4.$parent.loadCart();
+
           toastr.error(result.data.message);
         }
       })["catch"](function (err) {

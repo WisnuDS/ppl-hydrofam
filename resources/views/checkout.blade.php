@@ -154,23 +154,27 @@
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="cart-detail p-3 p-md-4">
-								<h3 class="billing-heading mb-4">Upload Payment Proof</h3>
-								<div class="form-group">
-									<div class="col-md-12">
-										<input type="file">
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="checkbox">
-											<label><input type="checkbox" value="" class="mr-2"> I have read and accept
-												the terms and conditions</label>
-										</div>
-									</div>
-								</div>
-								<p><a href="#" class="btn btn-primary py-3 px-4">Upload</a></p>
-							</div>
+                            <form action="{{url('/user/upload/proof')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$id}}" >
+                                <div class="cart-detail p-3 p-md-4">
+                                    <h3 class="billing-heading mb-4">Upload Payment Proof</h3>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="file" name="proof">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" class="mr-2" name="agree"> I have read and accept
+                                                    the terms and conditions</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><input type="submit" class="btn btn-primary py-3 px-4" value="Upload"></p>
+                                </div>
+                            </form>
 						</div>
 					</div>
 				</div> <!-- .col-md-8 -->

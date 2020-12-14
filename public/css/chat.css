@@ -1,0 +1,110 @@
+#fixed-consul-btn{
+    position: fixed;
+    bottom: 0px;
+    right: 2px; 
+    margin: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    z-index: 300;
+}
+#msg-header{
+    background-color: #2DA857!important;
+    color: white;
+    padding-bottom: 3%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#msg-icons-close{
+    cursor: pointer;
+    color: white;
+}
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+}
+.msg-inbox{
+    overflow: hidden;
+    padding-bottom: 0px!important;
+    height: 420px!important;
+    padding-bottom: 30px!important;
+}
+.chats{
+    padding: 30px 15px 30px 25px!important;
+}
+.msg-page{
+    height: 400px;
+    overflow-y: auto;
+}
+.chats-img{
+    float: left;
+    display: block;
+    width: 20px;
+    border-radius: 20px;
+}
+.received-msg{
+    display: inline-block;
+    padding: 0 0 0 10px !important;
+    vertical-align: top;
+    width: 90%;
+}
+.received-msg-inbox{
+    width: 88%;
+}
+.received-msg-inbox p{
+    background: #efefef none repeat scroll 0 0;
+    border-radius: 10px;
+    color: #646464;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px!important;
+    width: 100%;
+}
+.msg-time-received{
+    color: #777;
+    display: block;
+    font-size: 9px;
+    margin: 8px 0 0!important;
+}
+.outgoing-msg{
+    overflow: hidden;
+    margin: 26px 20px!important;
+}
+.outgoing-msg-inbox p{
+    background: #2DA857 none repeat scroll 0 0;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px!important;
+    width: 100%;
+}
+.outgoing-msg-inbox{
+    float: left;
+    width: 65%;
+    margin-left: 30%!important;
+}
+.outgoing-chats-img{
+    float: right;
+    display: block;
+    width: 20px;
+    border-radius: 20px;
+}
+.msg-time-outgoing{
+    float: right;
+    color: #777;
+    display: block;
+    font-size: 9px;
+    margin: 8px 0 0!important;
+}

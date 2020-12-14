@@ -38,6 +38,8 @@
     @stack('data-tables-transaction')
     @toastr_css
     <link rel="stylesheet" href="{{asset('css/custom_style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/chat.css')}}">
+    <script src="https://kit.fontawesome.com/3aa0ba3511.js" crossorigin="anonymous"></script>
     @stack('styles')
 </head>
 
@@ -72,6 +74,19 @@
 <!-- CONTENT -->
 @yield('content')
 
+<!-- SECTION CHAT -->
+@if(!auth()->guest())
+    @if(auth()->user()->isA('user'))
+        <!-- sticky chat button -->
+        <button class="btn btn-success" id="fixed-consul-btn" onclick="openForm()">
+            <i class="fas fa-comment"></i>
+        </button>
+        <!-- end sticky chat button -->
+        @include('components.consultation')
+    @endif
+@endif
+<!-- END SECTION CHAT -->
+
 <!-- FOOTER -->
 @include('layouts.footer')
 <!-- END FOOTER -->
@@ -103,7 +118,19 @@
 <script src="{{ asset('js/scrollax.min.js') }}"></script>
 <script src="{{ asset('js/google-map.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+<!-- CONSULTATION SCRIPT JS -->
+<script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+            $('#fixed-consul-btn').addClass('d-none');
+        }
 
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+            $('#fixed-consul-btn').removeClass('d-none');
+        }
+</script>
+<!-- END CONSULTATION SCRIPT JS -->
 @stack('scripts_addons')
 @jquery
 @toastr_js
@@ -115,33 +142,6 @@
         </script>
     @endforeach
 @endif
-
-{{--<script>--}}
-{{--    function thisClickedLog() {--}}
-{{--        document.getElementById('popLog').style.display = 'block';--}}
-{{--    }--}}
-{{--    function thisClickedLogC() {--}}
-{{--        document.getElementById('popLog').style.display = 'none';--}}
-{{--    }--}}
-{{--    var openCloseLog = document.getElementsByClassName('thisClose');--}}
-{{--    window.onclick = function (event) {--}}
-{{--        if (event.target == openCloseLog) {--}}
-{{--            openCloseLog.style.display = "none";--}}
-{{--        }--}}
-{{--    }--}}
-{{--    function thisClickedReg() {--}}
-{{--        document.getElementById('popReg').style.display = 'block';--}}
-{{--    }--}}
-{{--    function thisClickedRegC() {--}}
-{{--        document.getElementById('popReg').style.display = 'none';--}}
-{{--    }--}}
-{{--    var openCloseReg = document.getElementById('popReg');--}}
-{{--    window.onclick = function (event) {--}}
-{{--        if (event.target == openCloseReg) {--}}
-{{--            openCloseReg.style.display = "none";--}}
-{{--        }--}}
-{{--    }--}}
-{{--</script>--}}
 @stack('scripts')
 </body>
 

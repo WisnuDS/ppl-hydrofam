@@ -7,6 +7,8 @@ use App\ItemSelected;
 use App\Lib\ResponseBase;
 use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 use PHPUnit\Util\Xml\Validator;
 
 class CartController extends Controller
@@ -138,5 +140,74 @@ class CartController extends Controller
 
         $selected->delete();
         return response()->json(ResponseBase::successResponse("Success Delete Data"));
+    }
+
+    public function checkout()
+    {
+        try {
+            DB::beginTransaction();
+            //check if user has incomplete transaction
+            $transaction = Transaction::where('user_id', auth()->id())
+                ->where('status',1)
+                ->get();
+            if (sizeof($transaction) > 0){
+                DB::rollBack();
+                return response()->json(ResponseBase::failedResponse(400,"You haven't completed the previous transaction"));
+            }
+
+            $newTransaction = Transaction::create([
+                "invoice" => uniqid("INV"),
+                "order_note" => null,
+                "status" => 1,
+                "user_id" => auth()->id(),
+                "image" => null,
+                "paid_at" => null
+            ]);
+
+            $carts = ItemSelected::where('user_id', auth()->id())
+                ->where('status',1)
+                ->get();
+
+            foreach ($carts as $cart){
+                $cart->transaction_id = $newTransaction->id;
+                $cart->status = 2;
+                $cart->save();
+                $item = Item::find($cart->item_id);
+                if ($item->unit - $cart->quantity < 0){
+                    DB::rollBack();
+                    return response()->json(ResponseBase::failedResponse(400,"Out of stock"));
+                }
+                $item->unit = $item->unit - $cart->quantity;
+                $item->save();
+            }
+            DB::commit();
+            return response()->json(ResponseBase::successResponse("Success Checkout",["data" => $newTransaction]));
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return response()->json(ResponseBase::failedResponse(500,"Something went wrong",["data" => $exception]));
+        }
+    }
+
+    public function detailCheckout($id)
+    {
+        $transaction = Transaction::find($id);
+
+        if (empty($transaction)){
+            abort(404);
+        }
+
+        $selected = ItemSelected::with('item')->where('transaction_id',$id)->get();
+
+        $total = 0;
+
+        foreach ($selected as $select){
+            $total+=$select->quantity*$select->item->price;
+        }
+
+        return view('checkout')->with([
+            "transaction" => $transaction,
+            "carts" => $selected,
+            "total" => $total
+        ]);
     }
 }

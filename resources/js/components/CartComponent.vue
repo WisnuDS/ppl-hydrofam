@@ -131,8 +131,8 @@
                                 <span>Rp {{total}}</span>
                             </p>
                         </div>
-                        <p><a href="checkout.html" class="btn btn-primary py-3 px-4"
-                              onclick="return confirm('Are you sure want to checkout your cart?')">Proceed to Checkout</a>
+                        <p><a href="#" class="btn btn-primary py-3 px-4"
+                              onclick="return confirm('Are you sure want to checkout your cart?')" @click="checkout">Proceed to Checkout</a>
                         </p>
                     </div>
                     <!-- END SIDE CART CALCULATION -->
@@ -270,6 +270,19 @@
                     }
                 }).catch(err => {
                     toastr.error("Failed Delete Cart")
+                })
+            },
+            checkout(){
+                axios.post('/user/checkout',{
+                    _token:window.token
+                }).then(result => {
+                    if (result.data.status === 200){
+                        window.location = '/user/history/checkout/'+result.data.data.id
+                    }else {
+                        toastr.error(result.data.message)
+                    }
+                }).catch(err => {
+                    toastr.error("Something went wrong")
                 })
             }
         }

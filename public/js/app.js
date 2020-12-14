@@ -2218,6 +2218,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       })["catch"](function (err) {
         toastr.error("Failed Delete Cart");
       });
+    },
+    checkout: function checkout() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/user/checkout', {
+        _token: window.token
+      }).then(function (result) {
+        if (result.data.status === 200) {
+          window.location = '/user/history/checkout/' + result.data.data.id;
+        } else {
+          toastr.error(result.data.message);
+        }
+      })["catch"](function (err) {
+        toastr.error("Something went wrong");
+      });
     }
   }
 });
@@ -2330,6 +2343,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductComponent",
@@ -2341,13 +2355,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/product/' + this.product).then(function (result) {
-      _this.singleProduct = result.data;
-    })["catch"](function (err) {
-      toastr.error("Something went wrong");
-    });
+    this.loadProduct();
   },
   watch: {
     quantity: function quantity(newVal, oldVal) {
@@ -2364,7 +2372,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addToChart: function addToChart() {
-      var _this2 = this;
+      var _this = this;
 
       if (this.quantity !== 0 && this.quantity <= this.singleProduct.unit) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/cart/add', {
@@ -2373,7 +2381,10 @@ __webpack_require__.r(__webpack_exports__);
           _token: window.token
         }).then(function (result) {
           if (result.data.status === 200) {
-            _this2.$parent.$data.totalCart++;
+            _this.$parent.$data.totalCart++;
+
+            _this.loadProduct();
+
             toastr.success("Item successfully added to cart");
           } else {
             toastr.error("Something went wrong");
@@ -2384,6 +2395,15 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         toastr.error("Your input exceeds the available stock");
       }
+    },
+    loadProduct: function loadProduct() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/product/' + this.product).then(function (result) {
+        _this2.singleProduct = result.data;
+      })["catch"](function (err) {
+        toastr.error("Something went wrong");
+      });
     }
   }
 });
@@ -4173,7 +4193,21 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(3)
+            _c("p", [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary py-3 px-4",
+                  attrs: {
+                    href: "#",
+                    onclick:
+                      "return confirm('Are you sure want to checkout your cart?')"
+                  },
+                  on: { click: _vm.checkout }
+                },
+                [_vm._v("Proceed to Checkout")]
+              )
+            ])
           ])
         ])
       ])
@@ -4194,7 +4228,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(4),
+            _vm._m(3),
             _vm._v(" "),
             _c(
               "div",
@@ -4305,7 +4339,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(5),
+            _vm._m(4),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _vm._v("Are you sure to remove this item from your cart?")
@@ -4381,25 +4415,6 @@ var staticRenderFns = [
       _c("span", [_vm._v("Discount")]),
       _vm._v(" "),
       _c("span", [_vm._v("Rp 0")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary py-3 px-4",
-          attrs: {
-            href: "checkout.html",
-            onclick:
-              "return confirm('Are you sure want to checkout your cart?')"
-          }
-        },
-        [_vm._v("Proceed to Checkout")]
-      )
     ])
   },
   function() {
@@ -4663,14 +4678,13 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(1),
                   _vm._v(" "),
-                  _vm.role !== "guest"
+                  _vm.role === "user"
                     ? _c("p", [
                         _c(
-                          "a",
+                          "span",
                           {
                             staticClass: "btn btn-black py-3 px-5",
                             attrs: {
-                              href: "cart.html",
                               "data-toggle": "modal",
                               "data-target": "#cartVerifyModal"
                             }
@@ -4678,6 +4692,8 @@ var render = function() {
                           [_vm._v("Add to Cart")]
                         )
                       ])
+                    : _vm.role === "admin" || _vm.role === "super"
+                    ? _c("p")
                     : _c("p", [_vm._v("You must Login for add to Cart")])
                 ]
           ],
@@ -17082,11 +17098,11 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   data: {
     totalCart: 0,
-    isGuest: window.guest,
+    role: window.role,
     cart: []
   },
   mounted: function mounted() {
-    if (!this.isGuest) {
+    if (this.role === 'user') {
       this.loadCart();
     }
   },

@@ -15,11 +15,11 @@ new Vue({
     },
     data:{
         totalCart : 0,
-        isGuest: window.guest,
+        role: window.role,
         cart:[]
     },
     mounted(){
-        if (!this.isGuest){
+        if (this.role === 'user'){
             this.loadCart()
         }
     },

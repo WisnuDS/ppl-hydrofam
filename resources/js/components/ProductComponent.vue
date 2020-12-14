@@ -64,8 +64,9 @@
                             </small>
                         </p>
 
-                        <p v-if="role !== 'guest'"><a href="cart.html" class="btn btn-black py-3 px-5" data-toggle="modal"
-                              data-target="#cartVerifyModal">Add to Cart</a></p>
+                        <p v-if="role === 'user'"><span class="btn btn-black py-3 px-5" data-toggle="modal"
+                              data-target="#cartVerifyModal">Add to Cart</span></p>
+                        <p v-else-if="role === 'admin' || role === 'super'"></p>
                         <p v-else>You must Login for add to Cart</p>
                     </template>
                 </div>
@@ -105,11 +106,7 @@
             }
         },
         mounted() {
-            axios.get('/api/product/'+this.product).then(result => {
-                this.singleProduct = result.data
-            }).catch(err => {
-                toastr.error("Something went wrong")
-            })
+            this.loadProduct()
         },
         watch:{
             quantity(newVal, oldVal){
@@ -134,6 +131,7 @@
                     }).then(result => {
                         if (result.data.status === 200){
                             this.$parent.$data.totalCart++;
+                            this.loadProduct()
                             toastr.success("Item successfully added to cart")
                         }else {
                             toastr.error("Something went wrong")
@@ -144,6 +142,13 @@
                 }else {
                     toastr.error("Your input exceeds the available stock")
                 }
+            },
+            loadProduct(){
+                axios.get('/api/product/'+this.product).then(result => {
+                    this.singleProduct = result.data
+                }).catch(err => {
+                    toastr.error("Something went wrong")
+                })
             }
         }
     }

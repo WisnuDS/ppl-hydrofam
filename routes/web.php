@@ -49,7 +49,8 @@ Route::group(['middleware' => ['role:user','activity'], 'prefix' => 'user', 'as'
     Route::get('/home','App\Http\Controllers\User\HomeController@index');
     Route::resource('profile', 'App\Http\Controllers\ProfileController')->only(['index','create','update']);
     Route::resource('/cart', 'App\Http\Controllers\CartController')->only(['index']);
-//    Route::resource('/shop','App\Http\Controllers\ShopController')->only('index','show');
+    Route::post('/checkout','App\Http\Controllers\CartController@checkout');
+    Route::get('/history/checkout/{id}',[App\Http\Controllers\CartController::class,'detailCheckout']);
 });
 
 //Canvas API Route

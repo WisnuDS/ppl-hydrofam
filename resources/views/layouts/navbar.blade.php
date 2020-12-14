@@ -50,8 +50,10 @@
                             </a>
                         </div>
                     </li>
-                <li class="nav-item cta cta-colored"><a href="{{url('user/cart')}}" class="nav-link"><span
+                    @if(auth()->user()->isA('user'))
+                        <li class="nav-item cta cta-colored"><a href="{{url('user/cart')}}" class="nav-link"><span
                             class="icon-shopping_cart"></span>[@{{ totalCart }}]</a></li>
+                    @endif
                 <!-- END Ditamplikan saat user sudah login -->
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf

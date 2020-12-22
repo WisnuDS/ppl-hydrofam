@@ -48,6 +48,7 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'as' => 'admin.
     Route::get('transaction','App\Http\Controllers\TransactionController@index');
     Route::get('transaction/{id}','App\Http\Controllers\TransactionController@show');
     Route::post('transaction/{id}/confirm','App\Http\Controllers\TransactionController@confirm');
+    Route::get('chat/fetch/{id}',[App\Http\Controllers\ChatController::class,'fetchChat']);
 });
 
 //route user
@@ -59,6 +60,8 @@ Route::group(['middleware' => ['role:user','activity'], 'prefix' => 'user', 'as'
     Route::get('/history/checkout/{id}',[App\Http\Controllers\CartController::class,'detailCheckout']);
     Route::post('/upload/proof',[\App\Http\Controllers\CartController::class,'updateImageTransaction']);
 });
+
+Route::post('/send/message',[App\Http\Controllers\ChatController::class,'singleChat']);
 
 //Canvas API Route
 Route::prefix('blog')->group(function (){
@@ -103,6 +106,8 @@ Route::group(["prefix"=>"api"], function (){
         Route::get('/address',[\App\Http\Controllers\CartController::class,'address']);
     });
 });
+
+\Illuminate\Support\Facades\Broadcast::routes();
 
 //Route::prefix('canvas-ui')->group(function () {
 //

@@ -3,10 +3,19 @@ import axios from 'axios';
 import CommentComponent from "./views/CommentComponent";
 import ProductComponent from "./components/ProductComponent";
 
+//for socket.io
+require('./socket');
+
+//moment.js
+import moment from "moment";
+
+
 // require('bootstrap');
 
 Vue.component('product', require('./components/ProductComponent.vue').default);
 Vue.component('cart', require('./components/CartComponent.vue').default);
+Vue.component('consultation', require('./components/UserConsultationComponent').default)
+Vue.component('chat', require('./components/AdminChatComponent').default)
 
 new Vue({
     el: '#app',

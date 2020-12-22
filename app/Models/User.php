@@ -29,7 +29,8 @@ class User extends Authenticatable
         'city',
         'sub_district',
         'postal_code',
-        'detail'
+        'detail',
+        'status'
     ];
 
     /**

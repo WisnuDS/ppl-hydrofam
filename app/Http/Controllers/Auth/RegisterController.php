@@ -52,7 +52,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone_number' => ['required', 'numeric'],
             'gender' => ['required', 'integer', 'digits:1'],
             'birth_date' => ['required','date'],
@@ -83,7 +83,8 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'sub_district' => $data['sub_district'],
             'postal_code' => $data['postal_code'],
-            'detail' => $data['detail']
+            'detail' => $data['detail'],
+            'status' => 1
         ]);
         $user->assign('user');
         return $user;

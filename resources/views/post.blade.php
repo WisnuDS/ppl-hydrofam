@@ -44,6 +44,5 @@
 @endsection
 @push('scripts')
     <script>window.token = "{{csrf_token()}}";</script>
-    <script src="{{mix('js/app.js')}}"></script>
 @endpush
 

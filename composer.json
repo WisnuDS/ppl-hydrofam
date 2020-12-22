@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3",
         "austintoddj/canvas": "^6.0",
+        "beyondcode/laravel-websockets": "^1.9",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "ghiffariaq/mini-acl": "dev-master",
@@ -17,6 +18,8 @@
         "jeremykenedy/laravel-logger": "^3.9",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
+        "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "^4.1",
         "yoeunes/toastr": "^1.2"
     },
     "require-dev": {

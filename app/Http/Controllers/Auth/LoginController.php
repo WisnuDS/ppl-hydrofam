@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -54,5 +55,20 @@ class LoginController extends Controller
             $this->username() => [trans('auth.failed')],
             'password' => [trans('auth.failed')],
         ]);
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $user->status = 1;
+        $user->save();
+    }
+
+    public function logout(Request $request)
+    {
+        $user = auth()->user();
+        $user->status = 0;
+        $user->save();
+        Auth::logout();
+        return redirect('/');
     }
 }

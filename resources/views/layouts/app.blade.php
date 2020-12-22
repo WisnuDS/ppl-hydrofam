@@ -82,7 +82,8 @@
             <i class="fas fa-comment"></i>
         </button>
         <!-- end sticky chat button -->
-        @include('components.consultation')
+{{--        @include('components.consultation')--}}
+        <consultation user="{{auth()->id()}}" avatar="{{auth()->user()->avatar}}" name="{{auth()->user()->name}}"></consultation>
     @endif
 @endif
 <!-- END SECTION CHAT -->

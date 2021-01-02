@@ -1,0 +1,32 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Elsie&display=swap');
+.owl-carousel.home-slider .slider-item .slider-text h1{
+    font-family: 'Elsie', cursive;
+}
+.heading-section h2{
+    font-family: 'Elsie', cursive;
+    color: #5CDC87;
+}
+.color-white{
+    color: white;
+}
+.product_discount_title{
+    font-size: 48px;
+    font-weight: 900;
+}
+#timer .time{
+    color: white!important;
+}
+.foto_profil_user{
+    border-radius: 50%;
+    width: 2em;
+}
+.user_profile_detail{
+    width: 18em;
+}
+.admin_new_post_icon{
+    width: 1em;
+}
+.product_outOfstock{
+    opacity: 0.5;
+}
